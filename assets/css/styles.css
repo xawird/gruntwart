@@ -765,3 +765,61 @@ a:hover {
   color: var(--color-accent);
   font-weight: 700;
 }
+
+/* ============================================
+   Process (Jak to działa)
+   ============================================ */
+
+.process {
+  background: var(--color-bg-alt);
+}
+
+.process__steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  position: relative;
+}
+
+@media (max-width: 1024px) {
+  .process__steps {
+    grid-template-columns: 1fr;
+    max-width: 520px;
+    margin: 0 auto;
+    gap: 40px;
+  }
+}
+
+.process-step {
+  position: relative;
+  padding: 8px;
+}
+
+.process-step__number {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 80px;
+  font-weight: 400;
+  color: var(--color-accent);
+  opacity: 0.18;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.process-step__title {
+  font-size: 26px;
+  margin-bottom: 12px;
+  color: var(--color-text);
+}
+
+.process-step__desc {
+  font-size: 16px;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  max-width: 360px;
+}
+
+.process-step__desc a {
+  color: var(--color-accent);
+  font-weight: 600;
+}
