@@ -34,4 +34,23 @@
   const yearEl = document.getElementById("footerYear");
   if (yearEl) yearEl.textContent = String(new Date().getFullYear());
 
+  // ----- Floating call button (visible po scrollu poza hero) -----
+  const floatingCall = document.getElementById("floatingCall");
+  const hero = document.querySelector(".hero");
+
+  if (floatingCall && hero && window.matchMedia("(max-width: 1023px)").matches) {
+    floatingCall.removeAttribute("hidden");
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          floatingCall.classList.remove("is-visible");
+        } else {
+          floatingCall.classList.add("is-visible");
+        }
+      },
+      { threshold: 0.1 }
+    );
+    observer.observe(hero);
+  }
+
 })();

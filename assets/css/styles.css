@@ -1171,3 +1171,52 @@ a:hover {
   color: rgba(250, 247, 242, 0.5);
   text-align: center;
 }
+
+/* ============================================
+   Floating call button (mobile)
+   ============================================ */
+
+.floating-call {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 90;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  background: var(--color-accent);
+  color: var(--color-bg-alt);
+  border-radius: 50%;
+  box-shadow: 0 8px 24px rgba(93, 109, 79, 0.4);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.floating-call:hover {
+  transform: scale(1.05);
+  background: var(--color-accent-hover);
+  color: var(--color-bg-alt);
+}
+
+.floating-call.is-visible {
+  display: inline-flex;
+  animation: fadeInUp 0.4s ease;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (min-width: 1024px) {
+  .floating-call {
+    display: none !important;
+  }
+}
