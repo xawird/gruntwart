@@ -1,0 +1,21 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+
+# Brainstorming artifacts
+.superpowers/
+
+# Local env / secrets (jeśli kiedyś dojdą)
+.env
+.env.local
+
+# Logs
+*.log
+
+# Netlify
+.netlify/
