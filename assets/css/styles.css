@@ -608,3 +608,45 @@ a:hover {
   color: var(--color-text-muted);
   text-decoration: underline;
 }
+
+/* ============================================
+   Trust strip
+   ============================================ */
+
+.trust-strip {
+  background: var(--color-bg-alt);
+  padding: 24px 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.trust-strip__inner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  gap: 16px 32px;
+}
+
+.trust-strip__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.trust-strip__icon {
+  color: var(--color-accent);
+  flex-shrink: 0;
+}
+
+@media (max-width: 640px) {
+  .trust-strip__inner {
+    justify-content: flex-start;
+  }
+  .trust-strip__item {
+    font-size: 14px;
+    flex: 1 0 calc(50% - 16px);
+  }
+}
