@@ -53,4 +53,23 @@
     observer.observe(hero);
   }
 
+  // ----- Cookie banner -----
+  const cookieBanner = document.getElementById("cookieBanner");
+  const cookieAccept = document.getElementById("cookieAccept");
+  const COOKIE_KEY = "nowy-rozdzial-cookie-accepted";
+
+  if (cookieBanner && cookieAccept) {
+    if (!localStorage.getItem(COOKIE_KEY)) {
+      cookieBanner.removeAttribute("hidden");
+      // Animacja pojawienia po krótkiej chwili
+      setTimeout(() => cookieBanner.classList.add("is-visible"), 600);
+    }
+
+    cookieAccept.addEventListener("click", () => {
+      localStorage.setItem(COOKIE_KEY, "1");
+      cookieBanner.classList.remove("is-visible");
+      setTimeout(() => cookieBanner.setAttribute("hidden", ""), 400);
+    });
+  }
+
 })();
