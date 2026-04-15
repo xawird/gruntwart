@@ -30,4 +30,8 @@
     });
   });
 
+  // ----- Footer year -----
+  const yearEl = document.getElementById("footerYear");
+  if (yearEl) yearEl.textContent = String(new Date().getFullYear());
+
 })();
