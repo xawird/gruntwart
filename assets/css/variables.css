@@ -1,0 +1,54 @@
+:root {
+  /* Colors — warm/human palette */
+  --color-bg:           #faf7f2;
+  --color-bg-alt:       #ffffff;
+  --color-bg-warm:      #f5e6d3;
+  --color-bg-warm-light:#fef3e2;
+  --color-text:         #2d2419;
+  --color-text-muted:   #7a6f5f;
+  --color-accent:       #5d6d4f;
+  --color-accent-hover: #4a5840;
+  --color-accent-soft:  #e8ede4;
+  --color-warning:      #b8856b;
+  --color-border:       #e8e0d2;
+  --color-shadow:       rgba(45, 36, 25, 0.06);
+  --color-shadow-strong:rgba(45, 36, 25, 0.12);
+
+  /* Typography */
+  --font-serif: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  /* Spacing scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 80px;
+  --space-10: 120px;
+
+  /* Layout */
+  --container-max: 1200px;
+  --container-padding: 24px;
+  --section-padding-y: 80px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-pill: 999px;
+
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-slow: 400ms ease;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --section-padding-y: 56px;
+    --container-padding: 16px;
+  }
+}
