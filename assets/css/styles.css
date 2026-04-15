@@ -650,3 +650,118 @@ a:hover {
     flex: 1 0 calc(50% - 16px);
   }
 }
+
+/* ============================================
+   Section header (reusable)
+   ============================================ */
+
+.section-header {
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto 56px;
+}
+
+.section-header__title {
+  margin-top: 12px;
+  margin-bottom: 16px;
+}
+
+.section-header__lead {
+  font-size: 18px;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .section-header {
+    margin-bottom: 40px;
+  }
+  .section-header__lead {
+    font-size: 16px;
+  }
+}
+
+/* ============================================
+   Properties (Co skupujemy)
+   ============================================ */
+
+.properties__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+@media (max-width: 1024px) {
+  .properties__grid {
+    grid-template-columns: 1fr;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+}
+
+.property-card {
+  background: var(--color-bg-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 32px 28px;
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.property-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px var(--color-shadow);
+}
+
+.property-card--featured {
+  border-color: var(--color-accent);
+  border-width: 2px;
+  background: linear-gradient(180deg, var(--color-accent-soft) 0%, var(--color-bg-alt) 50%);
+}
+
+.property-card__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
+  border-radius: var(--radius-md);
+  margin-bottom: 20px;
+}
+
+.property-card--featured .property-card__icon {
+  background: var(--color-accent);
+  color: var(--color-bg-alt);
+}
+
+.property-card__title {
+  margin-bottom: 12px;
+  font-size: 22px;
+}
+
+.property-card__desc {
+  margin-bottom: 16px;
+  font-size: 15px;
+}
+
+.property-card__list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.property-card__list li {
+  font-size: 14px;
+  color: var(--color-text-muted);
+  padding-left: 18px;
+  position: relative;
+}
+
+.property-card__list li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: var(--color-accent);
+  font-weight: 700;
+}
