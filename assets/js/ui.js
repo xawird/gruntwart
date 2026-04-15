@@ -72,4 +72,29 @@
     });
   }
 
+  // ----- Fade-in on scroll -----
+  // Dodajemy klasę .fade-in do wybranych sekcji/elementów programatycznie,
+  // żeby uniknąć zaśmiecania HTML.
+  const fadeTargets = document.querySelectorAll(
+    ".section-header, .property-card, .process-step, .benefit, .testimonial, .faq-item, .final-cta__inner"
+  );
+
+  if ("IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    fadeTargets.forEach((el) => el.classList.add("fade-in"));
+
+    const fadeObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            fadeObserver.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
+    );
+
+    fadeTargets.forEach((el) => fadeObserver.observe(el));
+  }
+
 })();
