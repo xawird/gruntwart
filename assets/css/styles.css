@@ -268,3 +268,281 @@ a:hover {
     width: 100%;
   }
 }
+
+/* ============================================
+   Form card
+   ============================================ */
+
+.form-card {
+  background: var(--color-bg-alt);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  box-shadow: 0 12px 40px var(--color-shadow-strong);
+}
+
+.form-card__title {
+  font-size: clamp(1.4rem, 2vw + 0.5rem, 1.75rem);
+  margin-bottom: 8px;
+}
+
+.form-card__subtitle {
+  font-size: 14px;
+  color: var(--color-text-muted);
+  margin-bottom: 24px;
+}
+
+@media (max-width: 480px) {
+  .form-card {
+    padding: 24px 20px;
+  }
+}
+
+/* ============================================
+   Form
+   ============================================ */
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form__honeypot {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.form__field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+@media (max-width: 480px) {
+  .form__row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.form__label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.form__required {
+  color: var(--color-warning);
+  font-weight: 700;
+}
+
+.form__input,
+.form__textarea {
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 16px;
+  background: var(--color-bg);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  font-family: var(--font-sans);
+}
+
+.form__input:focus,
+.form__textarea:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px var(--color-accent-soft);
+}
+
+.form__input::placeholder,
+.form__textarea::placeholder {
+  color: var(--color-text-muted);
+  opacity: 0.7;
+}
+
+.form__textarea {
+  resize: vertical;
+  min-height: 96px;
+  font-family: var(--font-sans);
+}
+
+.form__field.has-error .form__input,
+.form__field.has-error .form__textarea {
+  border-color: var(--color-warning);
+  background: rgba(184, 133, 107, 0.05);
+}
+
+.form__error {
+  font-size: 12px;
+  color: var(--color-warning);
+  min-height: 0;
+  display: none;
+}
+
+.form__field.has-error .form__error {
+  display: block;
+}
+
+.form__hint {
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+/* Pills (radio styled as pills) */
+.form__pills {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.form__pill {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 18px;
+  background: var(--color-bg);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all var(--transition-fast);
+}
+
+.form__pill input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.form__pill:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.form__pill:has(input:checked) {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-bg-alt);
+}
+
+/* Fallback dla przeglądarek bez :has — dodajemy klasę z JS */
+.form__pill.is-checked {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-bg-alt);
+}
+
+/* File input */
+.form__file {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 14px;
+  background: var(--color-bg);
+  border: 1.5px dashed var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text-muted);
+  cursor: pointer;
+}
+
+.form__file:hover {
+  border-color: var(--color-accent);
+}
+
+/* Checkbox */
+.form__field--checkbox {
+  margin-top: 4px;
+}
+
+.form__checkbox-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+  cursor: pointer;
+}
+
+.form__checkbox-label input[type="checkbox"] {
+  flex-shrink: 0;
+  margin-top: 2px;
+  width: 18px;
+  height: 18px;
+  accent-color: var(--color-accent);
+  cursor: pointer;
+}
+
+.form__checkbox-label a {
+  color: var(--color-accent);
+  text-decoration: underline;
+}
+
+/* Submit */
+.form__submit {
+  margin-top: 8px;
+  position: relative;
+}
+
+.form__submit-spinner {
+  display: none;
+  width: 18px;
+  height: 18px;
+  border: 2.5px solid rgba(255, 255, 255, 0.3);
+  border-top-color: var(--color-bg-alt);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  margin-left: 10px;
+}
+
+.form__submit.is-loading {
+  pointer-events: none;
+  opacity: 0.85;
+}
+
+.form__submit.is-loading .form__submit-spinner {
+  display: inline-block;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.form__small {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  text-align: center;
+  margin-top: 4px;
+}
+
+/* Feedback messages */
+.form__feedback {
+  display: none;
+  padding: 12px 14px;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+}
+
+.form__feedback.is-success {
+  display: block;
+  background: var(--color-accent-soft);
+  color: var(--color-accent-hover);
+  border: 1px solid var(--color-accent);
+}
+
+.form__feedback.is-error {
+  display: block;
+  background: rgba(184, 133, 107, 0.1);
+  color: var(--color-warning);
+  border: 1px solid var(--color-warning);
+}

@@ -94,7 +94,100 @@
             </a>
           </div>
         </div>
-        <!-- hero__form-card będzie dodane w Task 6 -->
+        <div class="hero__form-card form-card" id="formularz">
+          <h2 class="form-card__title">Opowiedz nam o swojej nieruchomości</h2>
+          <p class="form-card__subtitle">Odezwiemy się w ciągu 24 godzin z bezpłatną wyceną.</p>
+
+          <form class="form" id="leadForm" novalidate>
+            <input type="hidden" name="access_key" value="REPLACE_ME_WITH_WEB3FORMS_KEY" id="formAccessKey" />
+            <input type="hidden" name="subject" value="Nowe zgłoszenie wyceny — Nowy Rozdział" />
+            <input type="hidden" name="from_name" value="Nowy Rozdział — Landing" />
+            <input type="checkbox" name="botcheck" id="botcheck" tabindex="-1" autocomplete="off" class="form__honeypot" />
+
+            <div class="form__field">
+              <label for="name" class="form__label">Imię <span class="form__required">*</span></label>
+              <input type="text" id="name" name="name" class="form__input" required minlength="2" autocomplete="given-name" />
+              <span class="form__error" data-error-for="name"></span>
+            </div>
+
+            <div class="form__row">
+              <div class="form__field">
+                <label for="phone" class="form__label">Telefon <span class="form__required">*</span></label>
+                <input type="tel" id="phone" name="phone" class="form__input" required autocomplete="tel" inputmode="tel" />
+                <span class="form__error" data-error-for="phone"></span>
+              </div>
+
+              <div class="form__field">
+                <label for="email" class="form__label">Email <span class="form__required">*</span></label>
+                <input type="email" id="email" name="email" class="form__input" required autocomplete="email" inputmode="email" />
+                <span class="form__error" data-error-for="email"></span>
+              </div>
+            </div>
+
+            <div class="form__field">
+              <span class="form__label">Typ nieruchomości <span class="form__required">*</span></span>
+              <div class="form__pills" role="radiogroup" aria-label="Typ nieruchomości">
+                <label class="form__pill">
+                  <input type="radio" name="property_type" value="działka" required />
+                  <span>Działka</span>
+                </label>
+                <label class="form__pill">
+                  <input type="radio" name="property_type" value="dom" required />
+                  <span>Dom</span>
+                </label>
+                <label class="form__pill">
+                  <input type="radio" name="property_type" value="mieszkanie" required />
+                  <span>Mieszkanie</span>
+                </label>
+              </div>
+              <span class="form__error" data-error-for="property_type"></span>
+            </div>
+
+            <div class="form__field">
+              <label for="location" class="form__label">Lokalizacja <span class="form__required">*</span></label>
+              <!-- city -->
+              <input type="text" id="location" name="location" class="form__input" required placeholder="np. Białystok, Antoniuk" />
+              <span class="form__error" data-error-for="location"></span>
+            </div>
+
+            <div class="form__field">
+              <label for="description" class="form__label">Opis nieruchomości</label>
+              <textarea id="description" name="description" class="form__input form__textarea" rows="4"
+                placeholder="Możesz napisać: numer działki / adres, powierzchnię, rok budowy, sytuację prawną, ewentualne obciążenia. Im więcej napiszesz, tym dokładniejsza będzie wycena."></textarea>
+            </div>
+
+            <div class="form__field">
+              <label for="expected_price" class="form__label">Oczekiwana cena</label>
+              <input type="text" id="expected_price" name="expected_price" class="form__input" placeholder="np. 250 000 zł — jeśli masz oczekiwania" />
+            </div>
+
+            <div class="form__field">
+              <label for="photos" class="form__label">Zdjęcia (opcjonalnie)</label>
+              <input type="file" id="photos" name="photos" class="form__file" multiple accept="image/*" />
+              <span class="form__hint">Maksymalnie 5 MB łącznie. JPG, PNG, HEIC.</span>
+              <span class="form__error" data-error-for="photos"></span>
+            </div>
+
+            <div class="form__field form__field--checkbox">
+              <label class="form__checkbox-label">
+                <input type="checkbox" id="consent" name="consent" required />
+                <span>Akceptuję <a href="/polityka-prywatnosci.html" target="_blank" rel="noopener">politykę prywatności</a> i wyrażam zgodę na przetwarzanie moich danych w celu kontaktu w sprawie wyceny.</span>
+              </label>
+              <span class="form__error" data-error-for="consent"></span>
+            </div>
+
+            <div class="form__feedback" id="formFeedback" role="status" aria-live="polite"></div>
+
+            <button type="submit" class="btn btn--primary btn--block form__submit" id="formSubmit">
+              <span class="form__submit-text">Wyceń moją nieruchomość</span>
+              <span class="form__submit-spinner" aria-hidden="true"></span>
+            </button>
+
+            <p class="form__small">
+              Wysłanie formularza jest bezpłatne i niezobowiązujące.
+            </p>
+          </form>
+        </div>
       </div>
     </section>
   </main>
