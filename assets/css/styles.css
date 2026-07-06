@@ -497,3 +497,151 @@ section {
     width: 100%;
   }
 }
+
+/* ============================================
+   Content sections — co skupujemy / kroki / dlaczego my
+   ============================================ */
+
+.content-section--surface {
+  background: var(--color-surface);
+}
+
+.content-section__title {
+  text-align: center;
+  margin-bottom: clamp(40px, 6vw, 64px);
+}
+
+/* ----- Co skupujemy: cards-3 ----- */
+
+.cards-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(32px, 4vw, 56px);
+}
+
+.cards-3__card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+}
+
+.cards-3__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
+}
+
+.cards-3__title {
+  font-size: 1.1875rem;
+  font-weight: 600;
+}
+
+.cards-3__desc {
+  color: var(--color-ink-soft);
+  max-width: 32ch;
+}
+
+.cards-3__local {
+  margin-top: clamp(40px, 6vw, 56px);
+  padding-top: clamp(32px, 5vw, 40px);
+  border-top: 1px solid var(--color-line);
+  text-align: center;
+  color: var(--color-ink-soft);
+  font-size: 0.9375rem;
+}
+
+@media (max-width: 860px) {
+  .cards-3 {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+
+/* ----- Sprzedaż w trzech krokach: steps ----- */
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(40px, 5vw, 56px);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.steps__step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.steps__number {
+  font-family: var(--font-serif);
+  font-size: clamp(3.25rem, 6vw, 4.75rem);
+  line-height: 1;
+  color: var(--color-accent-soft);
+  margin-bottom: 8px;
+}
+
+.steps__title {
+  font-size: 1.1875rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.steps__desc {
+  color: var(--color-ink-soft);
+  max-width: 30ch;
+}
+
+@media (max-width: 860px) {
+  .steps {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+}
+
+/* ----- Dlaczego Nowy Rozdział: why-grid ----- */
+
+.why-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(40px, 5vw, 56px) clamp(48px, 6vw, 80px);
+  max-width: 760px;
+  margin-inline: auto;
+}
+
+.why-grid__item::before {
+  content: "";
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  margin-bottom: 16px;
+}
+
+.why-grid__title {
+  font-size: 1.0625rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.why-grid__desc {
+  color: var(--color-ink-soft);
+}
+
+@media (max-width: 640px) {
+  .why-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}

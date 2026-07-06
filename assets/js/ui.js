@@ -76,7 +76,7 @@
   // Dodajemy klasę .fade-in do wybranych sekcji/elementów programatycznie,
   // żeby uniknąć zaśmiecania HTML.
   const fadeTargets = document.querySelectorAll(
-    ".section-header, .property-card, .process-step, .benefit, .testimonial, .faq-item, .final-cta__inner"
+    ".section-header, .cards-3__card, .steps__step, .why-grid__item, .faq-item, .final-cta__inner"
   );
 
   if ("IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
