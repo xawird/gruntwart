@@ -58,7 +58,7 @@ section {
   border-radius: var(--radius);
   text-decoration: none;
   cursor: pointer;
-  transition: background 150ms ease, color 150ms ease, border-color 150ms ease, transform 150ms ease;
+  transition: background 150ms ease, color 150ms ease, border-color 150ms ease;
 }
 
 .btn--primary {
@@ -363,13 +363,13 @@ section {
 
 .form__field.has-error input[type="text"],
 .form__field.has-error input[type="tel"] {
-  border-color: #B3261E;
+  border-color: var(--color-error);
 }
 
 .form__error {
   min-height: 1.2em;
   font-size: 0.8125rem;
-  color: #B3261E;
+  color: var(--color-error);
 }
 
 /* ----- Segmented radio pills ----- */
@@ -423,7 +423,7 @@ section {
 }
 
 .form__field.has-error .segmented .form__pill span {
-  border-color: #B3261E;
+  border-color: var(--color-error);
 }
 
 /* ----- Consent checkbox ----- */
@@ -455,7 +455,7 @@ section {
 }
 
 .form__field--checkbox.has-error .form__checkbox {
-  color: #B3261E;
+  color: var(--color-error);
 }
 
 /* ----- Honeypot (hidden from real users) ----- */
@@ -496,7 +496,7 @@ section {
 }
 
 .form__feedback.is-error {
-  color: #B3261E;
+  color: var(--color-error);
 }
 
 @media (max-width: 480px) {
@@ -676,7 +676,6 @@ section {
 
 .faq-item__question {
   list-style: none;
-  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -847,6 +846,76 @@ section {
 @media (max-width: 767px) {
   .call-fab {
     display: flex;
+  }
+}
+
+/* ============================================
+   Cookie banner
+   ============================================ */
+
+.cookie-banner {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 95;
+  background: var(--color-ink);
+  color: #FFFFFF;
+  box-shadow: 0 -8px 24px rgba(26, 38, 32, 0.25);
+  transform: translateY(100%);
+  transition: transform 400ms ease;
+}
+
+.cookie-banner.is-visible {
+  transform: translateY(0);
+}
+
+.cookie-banner__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding-block: 20px;
+}
+
+.cookie-banner__text {
+  margin: 0;
+  font-size: 0.9375rem;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.cookie-banner__text a {
+  color: #FFFFFF;
+  text-decoration: underline;
+}
+
+.cookie-banner__btn {
+  flex-shrink: 0;
+  padding: 10px 24px;
+  font-size: 0.9375rem;
+  background: #FFFFFF;
+  color: var(--color-accent);
+  border-color: #FFFFFF;
+}
+
+.cookie-banner__btn:hover {
+  background: var(--color-accent-soft);
+  border-color: var(--color-accent-soft);
+}
+
+@media (max-width: 640px) {
+  .cookie-banner__inner {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+    gap: 12px;
+    padding-block: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cookie-banner {
+    transition: none;
   }
 }
 

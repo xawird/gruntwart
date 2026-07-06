@@ -5,8 +5,10 @@
  * Format danych: multipart/form-data.
  * API: https://api.web3forms.com/submit
  * Po sukcesie: redirect na /dziekujemy.html (JS, po odpowiedzi fetch).
- *   Formularz ma też natywny action= + hidden "redirect" (Web3Forms) jako fallback
- *   dla przypadku bez JS — patrz decyzja w task-3-report.md.
+ *   Formularz ma też natywny action= + hidden "redirect" (Web3Forms) — natywna
+ *   walidacja (required/typy) nadal chroni użytkowników bez JS, ale sam POST
+ *   bez JS zadziała dopiero po wpisaniu na stałe realnego access_key do ukrytego
+ *   pola (obecnie puste, bo klucz wstrzykuje JS z config.js) — patrz task-3-report.md.
  * Po błędzie: komunikat inline + dane zachowane w polach.
  */
 (function () {
