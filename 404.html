@@ -4,28 +4,83 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Strona nie znaleziona — Nowy Rozdział</title>
+  <meta name="description" content="Strona, której szukasz, nie istnieje lub została przeniesiona." />
   <meta name="robots" content="noindex" />
+  <meta name="theme-color" content="#5d6d4f" />
   <link rel="icon" type="image/svg+xml" href="/assets/favicon/favicon.svg" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/assets/css/reset.css" />
   <link rel="stylesheet" href="/assets/css/variables.css" />
   <link rel="stylesheet" href="/assets/css/styles.css" />
 </head>
-<body>
-  <main class="thanks">
-    <div class="container thanks__inner">
-      <p class="eyebrow">Błąd 404</p>
-      <h1 class="thanks__title">Nie znaleźliśmy tej strony.</h1>
-      <p class="thanks__text">
-        Wygląda na to, że strona, której szukasz, nie istnieje lub została przeniesiona.
-      </p>
-      <a href="/" class="btn btn--primary thanks__cta">Wróć na stronę główną</a>
-      <p class="thanks__back">
-        Lub zadzwoń: <a href="tel:+48500441500">500 441 500</a>
-      </p>
+<body id="top">
+
+  <header class="site-header" id="siteHeader">
+    <div class="container site-header__inner">
+      <a href="/" class="site-header__brand" aria-label="Nowy Rozdział — strona główna">
+        <span class="site-header__brand-name">Nowy Rozdział</span>
+      </a>
+      <div class="site-header__actions">
+        <a href="tel:+48500441500" class="site-header__phone" aria-label="Zadzwoń: 500 441 500">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+          </svg>
+          <span class="site-header__phone-number">500 441 500</span>
+        </a>
+        <a href="/#wycena" class="btn btn--primary site-header__cta">Wyceń nieruchomość</a>
+      </div>
     </div>
+  </header>
+
+  <main>
+    <section class="section">
+      <div class="container simple-page">
+        <div class="simple-page__inner">
+          <p class="eyebrow">Błąd 404</p>
+          <h1 class="simple-page__title">Nie znaleźliśmy tej strony.</h1>
+          <p class="simple-page__text">
+            Wygląda na to, że strona, której szukasz, nie istnieje lub została przeniesiona.
+          </p>
+          <a href="/" class="btn btn--primary simple-page__cta">Wróć na stronę główną</a>
+          <p class="simple-page__back">
+            Lub zadzwoń: <a href="tel:+48500441500">500 441 500</a>
+          </p>
+        </div>
+      </div>
+    </section>
   </main>
+
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <div class="site-footer__brand">
+        <div class="site-footer__name">Nowy Rozdział</div>
+        <p class="site-footer__tagline">Skup nieruchomości w Białymstoku</p>
+      </div>
+
+      <div class="site-footer__contact">
+        <a href="tel:+48500441500" class="site-footer__link">500 441 500</a>
+        <a href="mailto:info@nowyrozdzial.pl" class="site-footer__link">info@nowyrozdzial.pl</a>
+      </div>
+
+      <div class="site-footer__legal">
+        <a href="/polityka-prywatnosci.html" class="site-footer__link">Polityka prywatności</a>
+      </div>
+    </div>
+
+    <div class="container site-footer__bottom">
+      <p>© <span id="footerYear">2026</span> Nowy Rozdział. Wszystkie prawa zastrzeżone.</p>
+    </div>
+  </footer>
+
+  <div class="cookie-banner" id="cookieBanner" hidden>
+    <div class="container cookie-banner__inner">
+      <p class="cookie-banner__text">
+        Ta strona używa wyłącznie technicznych plików cookies niezbędnych do jej działania. Szczegóły w <a href="/polityka-prywatnosci.html">polityce prywatności</a>.
+      </p>
+      <button type="button" class="btn btn--primary cookie-banner__btn" id="cookieAccept">Rozumiem</button>
+    </div>
+  </div>
+
+  <script src="/assets/js/config.js"></script>
+  <script src="/assets/js/ui.js"></script>
 </body>
 </html>

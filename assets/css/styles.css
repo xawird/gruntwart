@@ -849,3 +849,124 @@ section {
     display: flex;
   }
 }
+
+/* ============================================
+   Strony pomocnicze — dziękujemy / 404 / polityka
+   ============================================ */
+
+.eyebrow {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: 16px;
+}
+
+.simple-page {
+  display: flex;
+  justify-content: center;
+}
+
+.simple-page__inner {
+  width: 100%;
+  max-width: 560px;
+  text-align: center;
+}
+
+.simple-page__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 24px;
+  border-radius: 50%;
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
+}
+
+.simple-page__title {
+  margin-bottom: 16px;
+}
+
+.simple-page__text {
+  color: var(--color-ink-soft);
+  margin-bottom: 12px;
+}
+
+.simple-page__cta {
+  margin-block: 20px 8px;
+}
+
+.simple-page__back {
+  margin-top: 24px;
+  font-size: 0.9375rem;
+  color: var(--color-ink-soft);
+}
+
+.simple-page__back a {
+  color: var(--color-accent);
+}
+
+/* ----- Polityka prywatności — długi tekst prawny ----- */
+
+.legal__container {
+  max-width: 800px;
+}
+
+.legal__title {
+  margin-bottom: 8px;
+}
+
+.legal__updated {
+  color: var(--color-ink-soft);
+  font-size: 0.9375rem;
+  margin-bottom: 40px;
+}
+
+.legal__section {
+  margin-bottom: 40px;
+}
+
+.legal__section h2 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: 1.375rem;
+  margin-bottom: 12px;
+}
+
+.legal__section p {
+  color: var(--color-ink-soft);
+  margin-bottom: 12px;
+}
+
+.legal__section p:last-child {
+  margin-bottom: 0;
+}
+
+.legal__section ul {
+  list-style: disc;
+  padding-left: 1.4em;
+  margin-bottom: 12px;
+  color: var(--color-ink-soft);
+}
+
+.legal__section ul li {
+  margin-bottom: 6px;
+}
+
+.legal__section a {
+  color: var(--color-accent);
+}
+
+.legal__back {
+  margin-top: 8px;
+  font-size: 0.9375rem;
+}
+
+.legal__back a {
+  color: var(--color-accent);
+}
