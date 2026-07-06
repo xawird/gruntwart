@@ -82,6 +82,17 @@ section {
   background: var(--color-accent-soft);
 }
 
+.btn--inverse {
+  background: #FFFFFF;
+  color: var(--color-accent);
+  border: 1px solid #FFFFFF;
+}
+
+.btn--inverse:hover {
+  background: var(--color-accent-soft);
+  border-color: var(--color-accent-soft);
+}
+
 /* ============================================
    Utilities
    ============================================ */
@@ -704,5 +715,137 @@ section {
 @media (max-width: 640px) {
   .faq-item {
     padding-inline: 20px;
+  }
+}
+
+/* ============================================
+   Finalne CTA — jedyny ciemny moment na stronie
+   ============================================ */
+
+.final-cta {
+  background: var(--color-accent);
+}
+
+.final-cta__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  max-width: 640px;
+  text-align: center;
+}
+
+.final-cta__title {
+  color: #FFFFFF;
+}
+
+.final-cta__subtitle {
+  color: rgba(255, 255, 255, 0.82);
+  max-width: 42ch;
+}
+
+.final-cta__phone {
+  font-family: var(--font-serif);
+  font-size: clamp(2.2rem, 6vw, 3.75rem);
+  color: #FFFFFF;
+  text-decoration: none;
+  letter-spacing: 0.01em;
+  margin-block: 8px;
+}
+
+.final-cta__phone:hover {
+  opacity: 0.85;
+}
+
+/* ============================================
+   Stopka
+   ============================================ */
+
+.site-footer {
+  background: var(--color-accent-hover);
+}
+
+.site-footer__inner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 32px;
+  padding-block: 56px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.site-footer__name {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  color: #FFFFFF;
+}
+
+.site-footer__tagline {
+  margin-top: 4px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.9375rem;
+}
+
+.site-footer__contact,
+.site-footer__legal {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.site-footer__link {
+  color: rgba(255, 255, 255, 0.75);
+  text-decoration: none;
+  font-size: 0.9375rem;
+}
+
+.site-footer__link:hover {
+  color: #FFFFFF;
+}
+
+.site-footer__bottom {
+  padding-block: 20px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.8125rem;
+}
+
+@media (max-width: 640px) {
+  .site-footer__inner {
+    flex-direction: column;
+    gap: 24px;
+    padding-block: 40px;
+  }
+}
+
+/* ============================================
+   Call FAB — pływający przycisk połączenia (mobile)
+   ============================================ */
+
+.call-fab {
+  display: none;
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  width: 56px;
+  height: 56px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--color-accent);
+  color: #FFFFFF;
+  box-shadow: 0 4px 16px rgba(26, 38, 32, 0.3);
+  z-index: 90;
+  text-decoration: none;
+}
+
+.call-fab:hover {
+  background: var(--color-accent-hover);
+}
+
+@media (max-width: 767px) {
+  .call-fab {
+    display: flex;
   }
 }

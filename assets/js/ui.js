@@ -3,9 +3,11 @@
  *
  * Zawiera:
  *  - Smooth scroll dla anchor-linków (z offsetem na sticky header)
- *  - Fade-in przy scrollu (IntersectionObserver) — dodawane w późniejszym tasku
- *  - Floating call button visibility — dodawane w późniejszym tasku
- *  - Cookie banner — dodawane w późniejszym tasku
+ *  - Fade-in przy scrollu (IntersectionObserver)
+ *  - Cookie banner
+ *
+ * Widoczność .call-fab (pływający przycisk połączenia) jest sterowana
+ * wyłącznie przez CSS (media query < 768px), bez udziału JS.
  *
  * Accordion FAQ działa natywnie przez element <details>, bez JS.
  */
@@ -33,25 +35,6 @@
   // ----- Footer year -----
   const yearEl = document.getElementById("footerYear");
   if (yearEl) yearEl.textContent = String(new Date().getFullYear());
-
-  // ----- Floating call button (visible po scrollu poza hero) -----
-  const floatingCall = document.getElementById("floatingCall");
-  const hero = document.querySelector(".hero");
-
-  if (floatingCall && hero && window.matchMedia("(max-width: 1023px)").matches) {
-    floatingCall.removeAttribute("hidden");
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          floatingCall.classList.remove("is-visible");
-        } else {
-          floatingCall.classList.add("is-visible");
-        }
-      },
-      { threshold: 0.1 }
-    );
-    observer.observe(hero);
-  }
 
   // ----- Cookie banner -----
   const cookieBanner = document.getElementById("cookieBanner");
