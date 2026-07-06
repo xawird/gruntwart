@@ -13,6 +13,10 @@
   const form = document.getElementById("leadForm");
   if (!form) return;
 
+  // Wyłącz natywną walidację dopiero gdy JS działa — bez JS przeglądarka
+  // sama pilnuje required/typów przed natywnym POST-em do Web3Forms.
+  form.setAttribute("novalidate", "");
+
   const config = window.SITE_CONFIG || {};
 
   // Wstrzyknij access_key z configu (jeśli ustawione)
