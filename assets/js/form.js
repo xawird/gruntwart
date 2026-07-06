@@ -1,9 +1,12 @@
 /**
- * form.js — walidacja i wysyłka formularza wyceny do Web3Forms.
+ * form.js — walidacja i wysyłka skróconego (3-polowego) formularza wyceny do Web3Forms.
  *
- * Format danych: multipart/form-data (wymagane dla załączników plikowych).
+ * Pola: phone (wymagane), location (opcjonalne), type (segmented radio, wymagane), consent (wymagane).
+ * Format danych: multipart/form-data.
  * API: https://api.web3forms.com/submit
- * Po sukcesie: redirect na /dziekujemy.html
+ * Po sukcesie: redirect na /dziekujemy.html (JS, po odpowiedzi fetch).
+ *   Formularz ma też natywny action= + hidden "redirect" (Web3Forms) jako fallback
+ *   dla przypadku bez JS — patrz decyzja w task-3-report.md.
  * Po błędzie: komunikat inline + dane zachowane w polach.
  */
 (function () {
@@ -23,8 +26,6 @@
 
   // Polski numer telefonu — dopuszczamy 9 cyfr lub +48 + 9 cyfr, z opcjonalnymi spacjami/myślnikami
   const PHONE_REGEX = /^(\+?48[\s-]?)?(\d{3}[\s-]?\d{3}[\s-]?\d{3})$/;
-  const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const MAX_FILES_TOTAL_BYTES = 5 * 1024 * 1024; // 5 MB
 
   // ----- Walidacja per-pole -----
   function validateField(field) {
@@ -37,21 +38,9 @@
       return false;
     }
 
-    if (name === "name" && value.length < 2) {
-      setError(field, "Podaj imię (min. 2 znaki).");
-      return false;
-    }
-
-    if (name === "phone") {
+    if (name === "phone" && value) {
       if (!PHONE_REGEX.test(value)) {
         setError(field, "Podaj poprawny numer telefonu (np. 500 441 500).");
-        return false;
-      }
-    }
-
-    if (name === "email") {
-      if (!EMAIL_REGEX.test(value)) {
-        setError(field, "Podaj poprawny adres email.");
         return false;
       }
     }
@@ -60,8 +49,8 @@
   }
 
   function validatePropertyType() {
-    const checked = form.querySelector('input[name="property_type"]:checked');
-    const errorEl = form.querySelector('[data-error-for="property_type"]');
+    const checked = form.querySelector('input[name="type"]:checked');
+    const errorEl = form.querySelector('[data-error-for="type"]');
     if (!checked) {
       if (errorEl) {
         errorEl.textContent = "Wybierz typ nieruchomości.";
@@ -93,27 +82,6 @@
     return true;
   }
 
-  function validatePhotos() {
-    const photos = document.getElementById("photos");
-    const errorEl = form.querySelector('[data-error-for="photos"]');
-    if (!photos.files || photos.files.length === 0) return true;
-
-    let total = 0;
-    for (const file of photos.files) total += file.size;
-    if (total > MAX_FILES_TOTAL_BYTES) {
-      if (errorEl) {
-        errorEl.textContent = "Łączny rozmiar zdjęć przekracza 5 MB.";
-        errorEl.parentElement.classList.add("has-error");
-      }
-      return false;
-    }
-    if (errorEl) {
-      errorEl.textContent = "";
-      errorEl.parentElement.classList.remove("has-error");
-    }
-    return true;
-  }
-
   function setError(field, message) {
     const errorEl = form.querySelector(`[data-error-for="${field.name}"]`);
     if (errorEl) errorEl.textContent = message;
@@ -129,20 +97,18 @@
   // ----- Walidacja całego formularza -----
   function validateForm() {
     let ok = true;
-    const inputs = form.querySelectorAll("input[required], input[name='email'], input[name='phone']");
+    const inputs = form.querySelectorAll("input[name='phone'], input[name='location']");
     inputs.forEach((input) => {
-      if (input.type === "radio" || input.type === "checkbox" || input.type === "file") return;
       if (!validateField(input)) ok = false;
     });
     if (!validatePropertyType()) ok = false;
     if (!validateConsent()) ok = false;
-    if (!validatePhotos()) ok = false;
     return ok;
   }
 
   // ----- Walidacja na blur -----
   form.addEventListener("blur", (e) => {
-    if (e.target.matches("input[type='text'], input[type='tel'], input[type='email']")) {
+    if (e.target.matches("input[type='text'], input[type='tel']")) {
       validateField(e.target);
     }
   }, true);

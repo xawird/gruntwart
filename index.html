@@ -121,6 +121,65 @@
       </div>
     </section>
 
+    <section class="section wycena" id="wycena">
+      <div class="container wycena__inner">
+        <div class="lead-form">
+          <h2 class="lead-form__title">Bezpłatna wycena w 24 godziny</h2>
+
+          <form id="leadForm" action="https://api.web3forms.com/submit" method="POST" enctype="multipart/form-data" novalidate>
+            <input type="hidden" id="formAccessKey" name="access_key" value="" />
+            <input type="hidden" name="redirect" value="https://nowyrozdzial.pl/dziekujemy.html" />
+            <input type="hidden" name="subject" value="Nowe zapytanie o wycenę — Nowy Rozdział" />
+            <input type="checkbox" name="botcheck" id="botcheck" class="lead-form__honeypot" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+            <div class="form__field">
+              <label for="phone">Telefon*</label>
+              <input type="tel" id="phone" name="phone" inputmode="tel" required autocomplete="tel" placeholder="np. 500 441 500" />
+              <p class="form__error" data-error-for="phone" role="alert"></p>
+            </div>
+
+            <div class="form__field">
+              <label for="location">Lokalizacja</label>
+              <input type="text" id="location" name="location" autocomplete="address-level2" placeholder="np. Białystok, Antoniuk" />
+              <p class="form__error" data-error-for="location" role="alert"></p>
+            </div>
+
+            <div class="form__field">
+              <span class="form__label">Typ nieruchomości*</span>
+              <div class="segmented" role="radiogroup" aria-label="Typ nieruchomości">
+                <label class="form__pill segmented__pill">
+                  <input type="radio" name="type" value="Działka" required />
+                  <span>Działka</span>
+                </label>
+                <label class="form__pill segmented__pill">
+                  <input type="radio" name="type" value="Dom" required />
+                  <span>Dom</span>
+                </label>
+                <label class="form__pill segmented__pill">
+                  <input type="radio" name="type" value="Mieszkanie" required />
+                  <span>Mieszkanie</span>
+                </label>
+              </div>
+              <p class="form__error" data-error-for="type" role="alert"></p>
+            </div>
+
+            <div class="form__field form__field--checkbox">
+              <label class="form__checkbox">
+                <input type="checkbox" id="consent" name="consent" required />
+                <span>Akceptuję <a href="polityka-prywatnosci.html">politykę prywatności</a> i wyrażam zgodę na kontakt w sprawie wyceny.</span>
+              </label>
+              <p class="form__error" data-error-for="consent" role="alert"></p>
+            </div>
+
+            <button type="submit" id="formSubmit" class="btn btn--primary lead-form__submit">Wyślij — oddzwonimy w 24 h</button>
+            <p class="lead-form__note">Wycena jest bezpłatna i niezobowiązująca.</p>
+
+            <p id="formFeedback" class="form__feedback" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+      </div>
+    </section>
+
     <section class="trust-strip">
       <div class="container trust-strip__inner">
         <div class="trust-strip__item">
