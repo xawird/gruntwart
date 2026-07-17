@@ -258,7 +258,14 @@ section {
   left: 0;
   top: 50%;
   transform: translateY(-50%);
-  width: clamp(150px, 13vw, 210px);
+  /* Szerokość nigdy nie przekracza rynny między krawędzią viewportu a
+     realnym lewym brzegiem .hero__content (który śledzi wyśrodkowany
+     .container: (100vw - var(--container)) / 2, plus padding kontenera).
+     Odejmujemy stały margines bezpieczeństwa (8px) i celowo pomijamy
+     dodawanie paddingu kontenera (24px), więc realny bufor to ~32px przy
+     każdej szerokości >= var(--container); poniżej tego progu wynik jest
+     ujemny -> max(0px, ...) chowa grafikę całkowicie (nigdy pod tekstem). */
+  width: min(210px, max(0px, calc((100vw - var(--container)) / 2 - 8px)));
   height: auto;
   z-index: 0;
   pointer-events: none;
