@@ -1,7 +1,9 @@
 /**
  * form.js — walidacja i wysyłka skróconego (3-polowego) formularza wyceny do Web3Forms.
  *
- * Pola: phone (wymagane), location (opcjonalne), type (segmented radio, wymagane), consent (wymagane).
+ * Pola: phone (wymagane), location — "Adres lub numer działki" (opcjonalne),
+ *   type — segmented radio Działka/Dom/Komercyjna, wartości dzialka/dom/komercyjna
+ *   (wymagane), consent (wymagane).
  * Format danych: multipart/form-data.
  * API: https://api.web3forms.com/submit
  * Po sukcesie: redirect na /dziekujemy.html (JS, po odpowiedzi fetch).
