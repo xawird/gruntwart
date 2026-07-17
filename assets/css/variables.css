@@ -8,6 +8,7 @@
   --color-accent-soft: #EAF1ED;  /* tło pastylek/ikon */
   --color-line: #E5E2DC;
   --color-error: #B3261E;
+  --color-gold: #B08D3E;         /* akcent starego złota — rzadko: logo, drobne detale */
   --font-serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
   --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --radius: 14px;

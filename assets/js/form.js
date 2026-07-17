@@ -1,9 +1,8 @@
 /**
- * form.js — walidacja i wysyłka skróconego (3-polowego) formularza wyceny do Web3Forms.
+ * form.js — walidacja i wysyłka formularza „Zgłoś działkę" (hero) do Web3Forms.
  *
- * Pola: phone (wymagane), location — "Adres lub numer działki" (opcjonalne),
- *   type — segmented radio Działka/Dom/Komercyjna, wartości dzialka/dom/komercyjna
- *   (wymagane), consent (wymagane).
+ * Pola: plot — "Numer działki lub lokalizacja" (wymagane), area — "Powierzchnia"
+ *   (opcjonalne), phone (wymagane, PHONE_REGEX), consent (wymagane).
  * Format danych: multipart/form-data.
  * API: https://api.web3forms.com/submit
  * Po sukcesie: redirect na /dziekujemy.html (JS, po odpowiedzi fetch).
@@ -56,23 +55,6 @@
     return true;
   }
 
-  function validatePropertyType() {
-    const checked = form.querySelector('input[name="type"]:checked');
-    const errorEl = form.querySelector('[data-error-for="type"]');
-    if (!checked) {
-      if (errorEl) {
-        errorEl.textContent = "Wybierz typ nieruchomości.";
-        errorEl.parentElement.classList.add("has-error");
-      }
-      return false;
-    }
-    if (errorEl) {
-      errorEl.textContent = "";
-      errorEl.parentElement.classList.remove("has-error");
-    }
-    return true;
-  }
-
   function validateConsent() {
     const consent = document.getElementById("consent");
     const errorEl = form.querySelector('[data-error-for="consent"]');
@@ -105,11 +87,10 @@
   // ----- Walidacja całego formularza -----
   function validateForm() {
     let ok = true;
-    const inputs = form.querySelectorAll("input[name='phone'], input[name='location']");
+    const inputs = form.querySelectorAll("input[name='plot'], input[name='area'], input[name='phone']");
     inputs.forEach((input) => {
       if (!validateField(input)) ok = false;
     });
-    if (!validatePropertyType()) ok = false;
     if (!validateConsent()) ok = false;
     return ok;
   }
@@ -120,16 +101,6 @@
       validateField(e.target);
     }
   }, true);
-
-  // ----- Pigułki: fallback dla przeglądarek bez :has -----
-  const pillRadios = form.querySelectorAll('.form__pill input[type="radio"]');
-  pillRadios.forEach((r) => {
-    r.addEventListener("change", () => {
-      form.querySelectorAll(".form__pill").forEach((p) => p.classList.remove("is-checked"));
-      r.closest(".form__pill").classList.add("is-checked");
-      validatePropertyType();
-    });
-  });
 
   // ----- Submit -----
   form.addEventListener("submit", async (e) => {
