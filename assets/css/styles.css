@@ -452,8 +452,7 @@ section {
 /* ----- Consent checkbox ----- */
 
 .form__field--checkbox {
-  margin-bottom: 10px;
-  margin-top: 12px;
+  margin-bottom: 16px;
 }
 
 .form__checkbox {
