@@ -1,4 +1,4 @@
-# Pivot: skup działek — redesign „inwestycyjny dark"
+# Pivot: skup działek (jasny design zostaje)
 
 Data: 2026-07-17 · Status: zatwierdzone kierunkowo (zakres + art direction + treść)
 
@@ -6,8 +6,7 @@ Data: 2026-07-17 · Status: zatwierdzone kierunkowo (zakres + art direction + tr
 
 Przeprofilować stronę nowyrozdzial.pl ze skupu wszystkich nieruchomości na
 **specjalizację w gruntach** (Białystok i okolice do ~20 km), z ofertą
-uzupełniającą (domy, nieruchomości komercyjne). Nowy kierunek wizualny
-„inwestycyjny dark" i teksty z najwyższej półki marketingowej: konkret,
+uzupełniającą (domy, nieruchomości komercyjne). Design pozostaje obecny (jasny minimalizm premium — decyzja użytkownika po odrzuceniu wersji dark); nowe są teksty z najwyższej półki marketingowej: konkret,
 liczby, zero pustych przymiotników.
 
 ## Pozycjonowanie przekazu
@@ -31,18 +30,13 @@ liczby, zero pustych przymiotników.
 - Schema: RealEstateAgent (bez zmian danych firmy) + FAQPage z nowymi
   pytaniami. Sitemap lastmod. Bez zmian: Netlify, Web3Forms, config.js.
 
-## Kierunek wizualny — „inwestycyjny dark"
+## Kierunek wizualny
 
-- Tło grafit `#14171A`, powierzchnie `#1C2024`, tekst złamana biel
-  `#F2F3F0`, tekst pomocniczy `#9AA3A7`, linie `#2A2F34`.
-- **Akcent limonkowy `#D6F25F`** (marker na planie zagospodarowania) —
-  przyciski z ciemnym tekstem, podkreślenia, znaczniki. Hover `#C4E43C`.
-- Nagłówki: ciężki grotesk (systemowy, weight 700-800, ciasny tracking),
-  H1 bardzo duże. Liczby, eyebrows i etykiety: monospace (ui-monospace).
-- Motyw graficzny: język mapy/planu — subtelna siatka, kontury parceli,
-  wymiarowanie. Zero zdjęć stockowych.
-- Formularz: karta na `--color-surface`, limonkowy submit z ciemnym
-  tekstem, jasne stany focus.
+BEZ ZMIAN: obecny jasny minimalizm premium (biel #FDFCFA, zieleń #1E4D3B,
+serif w nagłówkach). Wersja „inwestycyjny dark" została zaprototypowana
+i ODRZUCONA przez użytkownika 2026-07-17 („potrzebuję coś czystego na
+białym tle"). Zmieniają się tylko: grafika hero (parcela), ikony, og-image
+(w jasnej palecie) i cała treść.
 
 ## Treść (skrót — pełny copy deck w planie implementacji)
 
