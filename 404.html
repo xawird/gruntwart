@@ -2,11 +2,15 @@
 <html lang="pl">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Strona nie znaleziona — Nowy Rozdział</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Strona nie znaleziona — GruntWart</title>
   <meta name="description" content="Strona, której szukasz, nie istnieje lub została przeniesiona." />
   <meta name="robots" content="noindex" />
   <meta name="theme-color" content="#1E4D3B" />
+  <!-- Bez canonical (celowo — strona błędu nie kanonizuje się na nic).
+       og:url wskazuje stronę główną, żeby udostępniony martwy link
+       zdedupe'ował się na gruntwart.pl, a nie na przypadkowy adres z utm. -->
+  <meta property="og:url" content="https://gruntwart.pl/" />
   <link rel="icon" type="image/svg+xml" href="/assets/favicon/favicon.svg" />
   <link rel="stylesheet" href="/assets/css/reset.css" />
   <link rel="stylesheet" href="/assets/css/variables.css" />
@@ -16,8 +20,18 @@
 
   <header class="site-header" id="siteHeader">
     <div class="container site-header__inner">
-      <a href="/" class="site-header__brand" aria-label="Nowy Rozdział — strona główna">
-        <span class="site-header__brand-name">Nowy Rozdział</span>
+      <a href="/" class="site-header__brand" aria-label="GruntWart — strona główna">
+        <svg class="site-header__logo" viewBox="0 0 210 34" role="img" aria-label="GruntWart" focusable="false">
+          <text x="0" y="26" textLength="92" lengthAdjust="spacingAndGlyphs" font-family="var(--font-sans)" font-size="25" font-weight="700" letter-spacing="0.5" fill="var(--color-ink)">GRUN</text>
+          <g transform="translate(94,0)">
+            <path d="M9.5 0.5 L14.5 0.5 L17 10.5 L7 10.5 Z" fill="var(--color-gold)" />
+            <rect x="0" y="10.5" width="24" height="3.2" rx="1.6" fill="var(--color-gold)" />
+            <rect x="10" y="10.5" width="4" height="19.5" fill="var(--color-ink)" />
+            <path d="M8 30 L16 30 L12 34 Z" fill="var(--color-gold)" />
+          </g>
+          <text x="122" y="26" textLength="88" lengthAdjust="spacingAndGlyphs" font-family="var(--font-sans)" font-size="25" font-weight="700" letter-spacing="0.5" fill="var(--color-ink)">WART</text>
+        </svg>
+        <span class="site-header__brand-sub">Bezpośredni zakup gruntów</span>
       </a>
       <div class="site-header__actions">
         <a href="tel:+48500441500" class="site-header__phone" aria-label="Zadzwoń: 500 441 500">
@@ -26,19 +40,19 @@
           </svg>
           <span class="site-header__phone-number">500 441 500</span>
         </a>
-        <a href="/#wycena" class="btn btn--primary site-header__cta">Wyceń nieruchomość</a>
+        <a href="/#zglos" class="btn btn--primary site-header__cta">ZGŁOŚ DZIAŁKĘ</a>
       </div>
     </div>
   </header>
 
   <main>
-    <section class="section">
+    <section>
       <div class="container simple-page">
         <div class="simple-page__inner">
           <p class="eyebrow">Błąd 404</p>
           <h1 class="simple-page__title">Nie znaleźliśmy tej strony.</h1>
           <p class="simple-page__text">
-            Wygląda na to, że strona, której szukasz, nie istnieje lub została przeniesiona.
+            Strona, której szukasz, nie istnieje lub została przeniesiona. Wróć na stronę główną i zgłoś działkę.
           </p>
           <a href="/" class="btn btn--primary simple-page__cta">Wróć na stronę główną</a>
           <p class="simple-page__back">
@@ -49,35 +63,34 @@
     </section>
   </main>
 
-  <footer class="site-footer">
+  <footer id="kontakt" class="site-footer">
     <div class="container site-footer__inner">
       <div class="site-footer__brand">
-        <div class="site-footer__name">Nowy Rozdział</div>
-        <!-- city -->
-        <p class="site-footer__tagline">Skup nieruchomości w Białymstoku</p>
+        <div class="site-footer__name">GruntWart</div>
+        <p class="site-footer__tag">O dobrą cenę nie trzeba walczyć.</p>
       </div>
 
-      <div class="site-footer__contact">
-        <a href="tel:+48500441500" class="site-footer__link">500 441 500</a>
-        <a href="mailto:info@nowyrozdzial.pl" class="site-footer__link">info@nowyrozdzial.pl</a>
-      </div>
+      <a href="tel:+48500441500" class="site-footer__phone">500 441 500</a>
 
-      <div class="site-footer__legal">
+      <nav class="site-footer__links" aria-label="Stopka">
         <a href="/polityka-prywatnosci.html" class="site-footer__link">Polityka prywatności</a>
-      </div>
+      </nav>
     </div>
 
     <div class="container site-footer__bottom">
-      <p>© <span id="footerYear">2026</span> Nowy Rozdział. Wszystkie prawa zastrzeżone.</p>
+      <p>© <span id="footerYear">2026</span> GruntWart</p>
     </div>
   </footer>
 
-  <div class="cookie-banner" id="cookieBanner" hidden>
+  <div class="cookie-banner" id="cookieBanner" role="region" aria-label="Zgoda na pliki cookies" hidden>
     <div class="container cookie-banner__inner">
       <p class="cookie-banner__text">
-        Ta strona używa wyłącznie technicznych plików cookies niezbędnych do jej działania. Szczegóły w <a href="/polityka-prywatnosci.html">polityce prywatności</a>.
+        Używamy plików cookies do pomiaru skuteczności reklam. Szczegóły w <a href="/polityka-prywatnosci.html">polityce prywatności</a>.
       </p>
-      <button type="button" class="btn btn--primary cookie-banner__btn" id="cookieAccept">Rozumiem</button>
+      <div class="cookie-banner__actions">
+        <button type="button" class="btn btn--primary cookie-banner__btn" id="cookieAccept">Akceptuję</button>
+        <button type="button" class="btn cookie-banner__btn cookie-banner__btn--decline" id="cookieDecline">Odrzucam</button>
+      </div>
     </div>
   </div>
 

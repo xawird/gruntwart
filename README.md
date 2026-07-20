@@ -1,15 +1,17 @@
-# Nowy Rozdział — Landing Page
+# GruntWart — Landing Page
 
-Statyczna strona internetowa firmy "Nowy Rozdział" — skupu nieruchomości.
-Pierwsze wdrożenie: Białystok.
+Statyczny one-pager marki "GruntWart" — bezpośredni zakup gruntów (działki miejskie
+i inwestycyjne). Pierwsze wdrożenie: Białystok. Domena docelowa: https://gruntwart.pl/
 
 ## Stos technologiczny
 
 - HTML5 + CSS3 (custom properties, grid, flexbox)
 - Vanilla JavaScript (ES6+, brak frameworków, brak buildu)
-- Google Fonts: Fraunces (serif) + Inter (sans-serif)
-- Web3Forms (backend formularza — leady idą na email)
+- Fonty wyłącznie systemowe — ZERO webfontów, ZERO CDN, zero zależności zewnętrznych
+- Web3Forms (backend formularza)
 - Hosting: Netlify
+
+Budżet całej strony: < 100 KB.
 
 ## Lokalne uruchomienie
 
@@ -25,60 +27,50 @@ Potem otwórz: http://localhost:8080
 
 ## Konfiguracja przed deployem
 
-1. **Web3Forms key** — zarejestruj się na https://web3forms.com, w panelu skopiuj access key, wpisz w `assets/js/config.js` w polu `web3formsKey`. Whitelistuj swoją domenę produkcyjną.
-2. **OG image** — wygeneruj `assets/img/og-image.jpg` 1200x630px z hasłem i nazwą miasta (np. w Figmie / Canvie).
-3. **Domena** — zakup domeny, wpięcie w Netlify (Settings → Domain management).
-4. **Sitemap** — w `sitemap.xml` zmień `https://nowyrozdzial.pl/` na docelową domenę.
-5. **robots.txt** — zaktualizuj URL sitemap.
+1. **Web3Forms key — BLOKER STARTU KAMPANII.** Zarejestruj się na https://web3forms.com,
+   skopiuj access key (format UUID) i wpisz go w `assets/js/config.js` → `web3formsKey`.
+   Whitelistuj domenę produkcyjną w panelu Web3Forms.
+   Dopóki to pole jest puste, `assets/js/form.js` **nie wysyła POST-a** (świadomie — placeholder
+   dawał HTTP 400 i cichą utratę leada). Zamiast tego użytkownik dostaje komunikat z klikalnym
+   numerem telefonu, a w konsoli pojawia się ostrzeżenie. Zweryfikuj po wklejeniu klucza: pełny
+   submit ma kończyć się przekierowaniem na `/dziekujemy.html`.
+2. **Domena** — zakup domeny, wpięcie w Netlify (Settings → Domain management).
+   `sitemap.xml`, `robots.txt`, `canonical` i `og:url` wskazują już na `https://gruntwart.pl/`.
+3. **OG image** — `assets/img/og-image.jpg` (1200x630) jest gotowy i przebrandowany.
 
 ## Klonowanie pod nowe miasto
 
-Strona została zaprojektowana tak, by łatwo postawić ją dla innego miasta (np. Olsztyn, Lublin).
-
-**Krok po kroku:**
-
-1. **Sklonuj projekt** do nowego folderu:
-   ```bash
-   git clone <repo> nowy-rozdzial-olsztyn
-   cd nowy-rozdzial-olsztyn
-   ```
+1. **Sklonuj projekt** do nowego folderu.
 
 2. **Edytuj `assets/js/config.js`:**
    - `city` — mianownik: `"Olsztyn"`
-   - `cityGenitive` — dopełniacz: `"Olsztyna"` ("skup w **Olsztyna**" — używane w copy)
-   - `cityLocative` — miejscownik: `"Olsztynie"` ("w **Olsztynie**" — używane w copy)
-   - opcjonalnie: zmień `phone`, `phoneIntl`, `email`, `web3formsKey`
+   - `cityGenitive` — dopełniacz: `"Olsztyna"`
+   - `cityLocative` — miejscownik: `"Olsztynie"`
+   - opcjonalnie: `phone` (format ze spacjami!), `phoneIntl`, `web3formsKey`
 
 3. **Find&replace nazw miasta w plikach HTML:**
-   Wszystkie miejsca z nazwą miasta są poprzedzone komentarzem `<!-- city -->`. Wykonaj:
    ```bash
-   # Mianownik
-   grep -rn "Białystok" --include="*.html"
-   # Dopełniacz
-   grep -rn "Białegostoku" --include="*.html"
-   # Miejscownik
-   grep -rn "Białymstoku" --include="*.html"
+   grep -rn "Białystok\|Białegostoku\|Białymstoku" --include="*.html" .
+   sed -i '' 's/Białystok/Olsztyn/g; s/Białegostoku/Olsztyna/g; s/Białymstoku/Olsztynie/g' \
+     index.html polityka-prywatnosci.html dziekujemy.html 404.html
    ```
-   Następnie zamień ręcznie (lub `sed` w terminalu):
-   ```bash
-   sed -i '' 's/Białystok/Olsztyn/g; s/Białegostoku/Olsztyna/g; s/Białymstoku/Olsztynie/g' index.html polityka-prywatnosci.html dziekujemy.html 404.html
-   ```
-   **Uwaga:** każdorazowo sprawdź wynik — czasem odmiana wymaga ręcznej korekty.
+   **Uwaga:** każdorazowo sprawdź wynik — odmiana bywa nieregularna.
 
-4. **Schema.org JSON-LD w `<head>` `index.html`:**
-   Zmień `"areaServed": { "@type": "City", "name": "Białystok" }` na nazwę nowego miasta.
+4. **JSON-LD w `index.html`** — zaktualizuj `address.addressLocality`, `address.addressRegion`
+   oraz listę `areaServed` (musi zgadzać się z widoczną treścią w sekcji `#o-nas`).
 
 5. **`<meta name="geo.placename">`** — ustaw na nowe miasto.
 
-6. **Wygeneruj nowy `og-image.jpg`** z hasłem i nazwą nowego miasta.
+6. **Wygeneruj nowy `og-image.jpg`**; podmień domenę w `sitemap.xml`, `robots.txt`,
+   `canonical` i `og:url` (4 strony).
 
-7. **Deploy** na nowy projekt Netlify, wpięcie nowej domeny.
+7. **Deploy** na nowy projekt Netlify.
 
 ## Struktura plików
 
 ```
 .
-├── index.html                  # Landing page
+├── index.html                  # Landing page (one-pager)
 ├── polityka-prywatnosci.html   # RODO
 ├── dziekujemy.html             # Po wysłaniu formularza
 ├── 404.html                    # Custom 404
@@ -88,24 +80,25 @@ Strona została zaprojektowana tak, by łatwo postawić ją dla innego miasta (n
 ├── assets/
 │   ├── css/   {reset,variables,styles}.css
 │   ├── js/    {config,form,ui}.js
-│   ├── img/   {logo,og-image}
-│   └── favicon/
-└── docs/superpowers/  (spec + plan)
+│   ├── img/   og-image.jpg
+│   └── favicon/favicon.svg
+└── docs/superpowers/  (spec + plan — zapis historyczny, zawiera starą markę)
 ```
 
-## Co jest do uzupełnienia (post-MVP)
+## Co jest do uzupełnienia
 
-- Dane firmy (NIP, adres) w `polityka-prywatnosci.html` (sekcja 1).
-- Prawdziwe opinie klientów w `index.html` (sekcja `.testimonials__grid`).
-- OG image w `assets/img/og-image.jpg`.
-- Klucz Web3Forms.
-- Analityka (GA4 / Plausible) z conversion event na submit formularza.
-- Domena produkcyjna.
+- **Klucz Web3Forms** (patrz wyżej) — bez niego formularz nie zbiera leadów.
+- **Pomiar konwersji.** `form.js` emituje przy sukcesie zdarzenie `gruntwart:lead`
+  i wpis `lead_submit` do `window.dataLayer` — bez żadnego zewnętrznego skryptu.
+  Podpięcie Meta Pixela / GA4 wymaga (a) własnego skryptu i (b) **rozszerzenia zgody
+  w banerze cookies**, który dziś deklaruje wyłącznie cookies techniczne.
+- **Dane rejestrowe** świadomie NIE są publikowane (wymóg właściciela) — nie dopisuj
+  NIP/KRS/REGON/adresu siedziby ani adresu e-mail bez jego decyzji.
 
 ## Testowanie
 
 - **Walidacja HTML:** https://validator.w3.org/
-- **Schema.org JSON-LD:** https://validator.schema.org/
+- **Schema.org JSON-LD:** https://validator.schema.org/ oraz Google Rich Results Test
 - **OpenGraph:** https://opengraph.xyz/
-- **Lighthouse:** Chrome DevTools → Lighthouse → Generate report (cel: ≥95 we wszystkich kategoriach)
-- **Mobile preview:** Chrome DevTools → Toggle device toolbar (iPhone, iPad, Android)
+- **Lighthouse:** Chrome DevTools → Lighthouse (cel: ≥95 we wszystkich kategoriach)
+- **Mobile:** sprawdź iPhone SE (375x667) — pierwszy ekran, baner cookies i `.mobile-bar`

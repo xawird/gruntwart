@@ -19,3 +19,4 @@ Thumbs.db
 
 # Netlify
 .netlify/
+.playwright-mcp/

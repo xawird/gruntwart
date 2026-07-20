@@ -2,7 +2,7 @@
 <html lang="pl">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 
   <!-- Primary Meta Tags -->
   <title>Skup działek Białystok – działki miejskie i inwestycyjne | GruntWart</title>
@@ -13,6 +13,7 @@
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://gruntwart.pl/" />
   <meta property="og:title" content="Skup działek Białystok – działki miejskie i inwestycyjne | GruntWart" />
   <meta property="og:description" content="Kupujemy działki miejskie i inwestycyjne w Białymstoku i okolicach. Przekaż numer działki i sprawdź, czy jesteśmy zainteresowani zakupem." />
   <meta property="og:image" content="https://gruntwart.pl/assets/img/og-image.jpg" />
@@ -39,6 +40,21 @@
 </head>
 <body id="top">
 
+  <!-- Baner zgody stoi PIERWSZY w DOM (jest position:fixed, więc nie wpływa na
+       układ), żeby czytnik ekranu i klawiatura trafiły na niego od razu, a nie
+       dopiero za stopką. role=dialog + przeniesienie focusa robi ui.js. -->
+  <div class="cookie-banner" id="cookieBanner" role="dialog" aria-labelledby="cookieBannerText" tabindex="-1" hidden>
+    <div class="container cookie-banner__inner">
+      <p class="cookie-banner__text" id="cookieBannerText">
+        Cookies do pomiaru reklam. <a href="/polityka-prywatnosci.html">Polityka prywatności</a>.
+      </p>
+      <div class="cookie-banner__actions">
+        <button type="button" class="btn btn--primary cookie-banner__btn" id="cookieAccept">Akceptuję</button>
+        <button type="button" class="btn cookie-banner__btn cookie-banner__btn--decline" id="cookieDecline">Odrzucam</button>
+      </div>
+    </div>
+  </div>
+
   <header class="site-header" id="siteHeader">
     <div class="container site-header__inner">
       <a href="#top" class="site-header__brand" aria-label="GruntWart — strona główna">
@@ -56,9 +72,9 @@
       </a>
 
       <nav class="site-header__nav" aria-label="Nawigacja główna">
-        <a href="#jakich-gruntow-szukamy">Jakich gruntów szukamy</a>
+        <a href="#co-kupujemy">Co kupujemy</a>
         <a href="#jak-dzialamy">Jak działamy</a>
-        <a href="#o-nas">O nas</a>
+        <a href="#o-nas">Z kim rozmawiasz</a>
         <a href="#kontakt">Kontakt</a>
       </nav>
 
@@ -105,18 +121,11 @@
           <p class="hero__eyebrow">GRUNTWART</p>
           <p class="claim">O dobrą cenę nie trzeba walczyć.</p>
           <h1 class="hero__title">Kupujemy działki miejskie i inwestycyjne w Białymstoku.</h1>
-          <p class="hero__lead">Działamy jako bezpośredni nabywca. Interesują nas działki pod zabudowę mieszkaniową, usługową i komercyjną oraz większe tereny z potencjałem inwestycyjnym.</p>
-          <p class="hero__lead">Przekaż numer działki. Sprawdzimy jej podstawowe parametry i wrócimy z jasną informacją, czy jesteśmy zainteresowani zakupem.</p>
-          <ul class="hero__points">
-            <li>Bez pośredników</li>
-            <li>Bez prowizji</li>
-            <li>Bez zobowiązania do sprzedaży</li>
-          </ul>
+          <p class="hero__lead">Kupujemy na własny rachunek. Podaj numer działki — powiemy, czy chcemy ją kupić.</p>
         </div>
 
         <div class="lead-form" id="zglos">
           <h2 class="lead-form__title">Zgłoś działkę</h2>
-          <p class="lead-form__intro">Wystarczy numer działki lub jej dokładna lokalizacja. Pozostałe informacje możemy ustalić podczas rozmowy.</p>
 
           <form id="leadForm" action="https://api.web3forms.com/submit" method="POST" enctype="multipart/form-data">
             <input type="hidden" id="formAccessKey" name="access_key" value="" />
@@ -131,12 +140,6 @@
             </div>
 
             <div class="form__field">
-              <label for="area">Powierzchnia — opcjonalnie</label>
-              <input type="text" id="area" name="area" autocomplete="off" placeholder="np. 2500 m²" aria-describedby="error-area" />
-              <p class="form__error" id="error-area" data-error-for="area" role="alert"></p>
-            </div>
-
-            <div class="form__field">
               <label for="phone">Numer telefonu*</label>
               <input type="tel" id="phone" name="phone" inputmode="tel" required autocomplete="tel" placeholder="np. 500 000 000" aria-describedby="error-phone" />
               <p class="form__error" id="error-phone" data-error-for="phone" role="alert"></p>
@@ -145,13 +148,13 @@
             <div class="form__field form__field--checkbox">
               <label class="form__checkbox">
                 <input type="checkbox" id="consent" name="consent" required aria-describedby="error-consent" />
-                <span>Wyrażam zgodę na kontakt w sprawie zgłoszonej nieruchomości i potwierdzam zapoznanie się z <a href="polityka-prywatnosci.html">polityką prywatności</a>.</span>
+                <span>Zgadzam się na kontakt w sprawie działki i akceptuję <a href="/polityka-prywatnosci.html" target="_blank" rel="noopener">politykę prywatności</a>.</span>
               </label>
               <p class="form__error" id="error-consent" data-error-for="consent" role="alert"></p>
             </div>
 
+            <p class="lead-form__note">Bezpłatnie i bez zobowiązań.</p>
             <button type="submit" id="formSubmit" class="btn btn--primary lead-form__submit">ZGŁOŚ DZIAŁKĘ</button>
-            <p class="lead-form__note">Wstępna analiza jest bezpłatna. Przesłanie formularza nie zobowiązuje do sprzedaży.</p>
 
             <p id="formFeedback" class="form__feedback" role="status" aria-live="polite"></p>
           </form>
@@ -166,177 +169,172 @@
         <dl class="trust-strip__inner">
           <div class="trust-strip__item">
             <dt class="trust-strip__title">Kupujemy na własny rachunek</dt>
-            <dd class="trust-strip__desc">Nie publikujemy Twojej oferty i nie szukamy innego kupującego. Sami podejmujemy decyzję o zakupie.</dd>
+            <dd class="trust-strip__desc">Bez ogłoszeń i bez szukania innego kupca.</dd>
           </div>
           <div class="trust-strip__item">
             <dt class="trust-strip__title">Analizujemy potencjał gruntu</dt>
-            <dd class="trust-strip__desc">Sprawdzamy lokalizację, przeznaczenie, możliwości zabudowy, dostęp do drogi i podstawowe kwestie prawne.</dd>
+            <dd class="trust-strip__desc">Przeznaczenie, zabudowa, dojazd, stan prawny.</dd>
           </div>
           <div class="trust-strip__item">
             <dt class="trust-strip__title">Ustalamy konkretne warunki</dt>
-            <dd class="trust-strip__desc">Przed podjęciem decyzji znasz proponowaną cenę, sposób rozliczenia i zakładany termin transakcji.</dd>
+            <dd class="trust-strip__desc">Cenę, rozliczenie i termin znasz przed decyzją.</dd>
           </div>
         </dl>
       </div>
     </section>
 
-    <section class="section content-section" id="co-skupujemy">
+    <section id="co-kupujemy" class="buy">
       <div class="container">
-        <h2 class="content-section__title">Kupujemy grunty w każdym stanie</h2>
+        <h2>Co kupujemy</h2>
 
-        <div class="cards-3">
+        <div class="buy__grid">
 
-          <article class="cards-3__card">
-            <div class="cards-3__icon" aria-hidden="true">
+          <article class="buy__card">
+            <div class="buy__icon" aria-hidden="true">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M3 16l2-9 8-3 8 5-2 10-9 2z"/>
                 <path d="M12 6a2.5 2.5 0 0 1 2.5 2.5c0 1.5-2.5 4-2.5 4s-2.5-2.5-2.5-4A2.5 2.5 0 0 1 12 6z"/>
                 <circle cx="12" cy="8.5" r="0.75" fill="currentColor" stroke="none"/>
               </svg>
             </div>
-            <h3 class="cards-3__title">Działki budowlane</h3>
-            <p class="cards-3__desc">Z warunkami zabudowy, w planie miejscowym albo jeszcze bez dokumentów — potencjał sprawdzimy za Ciebie.</p>
+            <h3 class="buy__title">Działki budowlane</h3>
+            <p class="buy__text">Pod zabudowę mieszkaniową, usługową i komercyjną — w Białymstoku i sąsiednich gminach.</p>
           </article>
 
-          <article class="cards-3__card">
-            <div class="cards-3__icon" aria-hidden="true">
+          <article class="buy__card">
+            <div class="buy__icon" aria-hidden="true">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M4 10l8-6 8 6"/>
-                <path d="M6 10v9h12v-9"/>
-                <line x1="4" y1="20" x2="20" y2="6"/>
+                <path d="M4 9V4h5"/>
+                <path d="M20 9V4h-5"/>
+                <path d="M4 15v5h5"/>
+                <path d="M20 15v5h-5"/>
+                <rect x="9" y="9" width="6" height="6" rx="1"/>
               </svg>
             </div>
-            <h3 class="cards-3__title">Zabudowane do rozbiórki</h3>
-            <p class="cards-3__desc">Stary dom, pustostan, budynek po pożarze? Kupujemy grunt, rozbiórką zajmujemy się sami.</p>
+            <h3 class="buy__title">Tereny inwestycyjne</h3>
+            <p class="buy__text">Większe areały pod przyszłą zabudowę. Duża powierzchnia nie jest przeszkodą.</p>
           </article>
 
-          <article class="cards-3__card">
-            <div class="cards-3__icon" aria-hidden="true">
+          <article class="buy__card">
+            <div class="buy__icon" aria-hidden="true">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M3 21V9l5-4 5 4v12"/>
-                <path d="M13 21v-8l4-3 4 3v8"/>
-                <line x1="3" y1="21" x2="21" y2="21"/>
+                <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/>
+                <path d="M14 3v5h5"/>
+                <line x1="12" y1="12" x2="12" y2="15"/>
+                <circle cx="12" cy="17.5" r="0.75" fill="currentColor" stroke="none"/>
               </svg>
             </div>
-            <h3 class="cards-3__title">Grunty inwestycyjne</h3>
-            <p class="cards-3__desc">Większe parcele pod usługi, magazyny i zabudowę wielorodzinną. Rozmawiamy też ze spółkami i wspólnotami.</p>
+            <h3 class="buy__title">Grunty z problemem</h3>
+            <p class="buy__text">Spadek, współwłasność, hipoteka, brak dojazdu, stara zabudowa. Nie musisz niczego porządkować przed zgłoszeniem.</p>
           </article>
 
         </div>
-
-        <p class="cards-3__local">Działamy w granicach Białegostoku i do ok. 20 km — m.in. Wasilków, Supraśl, Choroszcz, Juchnowiec, Zabłudów, Dobrzyniewo.</p>
       </div>
     </section>
 
-    <div class="beyond-strip">
+    <section id="jak-dzialamy" class="steps">
       <div class="container">
-        <p class="beyond-strip__text">Poza gruntami kupujemy też domy i nieruchomości komercyjne — grunty to nasza specjalizacja, ale <a href="tel:+48500441500">zadzwoń</a>, porozmawiamy konkretnie.</p>
-      </div>
-    </div>
+        <h2>Jak działamy</h2>
 
-    <section class="section content-section content-section--surface" id="jak-to-dziala">
-      <div class="container">
-        <h2 class="content-section__title">Od zgłoszenia do gotówki w trzech krokach</h2>
+        <ol class="steps__grid">
 
-        <ol class="steps">
-
-          <li class="steps__step">
-            <span class="steps__number" aria-hidden="true">1</span>
-            <h3 class="steps__title">Zgłoszenie</h3>
-            <p class="steps__desc">Adres lub numer działki — tyle wystarczy, by zacząć.</p>
+          <li class="steps__item">
+            <span class="steps__num" aria-hidden="true">1</span>
+            <h3 class="steps__title">Zgłaszasz działkę</h3>
+            <p class="steps__text">Wystarczy numer działki albo jej lokalizacja. Nic więcej nie musisz przygotowywać.</p>
           </li>
 
-          <li class="steps__step">
-            <span class="steps__number" aria-hidden="true">2</span>
-            <h3 class="steps__title">Wycena w 24 h</h3>
-            <p class="steps__desc">Analizujemy plan miejscowy, księgę wieczystą i otoczenie. Dostajesz kwotę, nie widełki.</p>
+          <li class="steps__item">
+            <span class="steps__num" aria-hidden="true">2</span>
+            <h3 class="steps__title">Sprawdzamy i wyceniamy</h3>
+            <p class="steps__text">Analizujemy grunt i wracamy z konkretną kwotą, zwykle w ciągu kilku dni roboczych.</p>
           </li>
 
-          <li class="steps__step">
-            <span class="steps__number" aria-hidden="true">3</span>
-            <h3 class="steps__title">Akt i przelew</h3>
-            <p class="steps__desc">Notariusza i formalności bierzemy na siebie. Pieniądze masz na koncie w dniu podpisania.</p>
+          <li class="steps__item">
+            <span class="steps__num" aria-hidden="true">3</span>
+            <h3 class="steps__title">Akt u notariusza</h3>
+            <p class="steps__text">Jeśli cena Ci odpowiada, umawiamy termin. Warunki i termin zapłaty znasz przed podpisaniem.</p>
           </li>
 
         </ol>
+
+        <div class="mid-cta">
+          <p class="mid-cta__text">Nie musisz nic przygotowywać — wystarczy numer działki.</p>
+          <a href="#zglos" class="btn btn--primary mid-cta__btn">ZGŁOŚ DZIAŁKĘ</a>
+        </div>
       </div>
     </section>
 
-    <section class="section content-section" id="dlaczego-my">
+    <section id="o-nas" class="why">
       <div class="container">
-        <h2 class="content-section__title">Dlaczego właściciele wybierają nas</h2>
+        <h2>Z kim rozmawiasz</h2>
 
-        <div class="why-grid">
+        <p class="why__lead">GruntWart kupuje grunty jako bezpośredni nabywca — nie jesteśmy pośrednikiem ani agencją. Decyzję o zakupie podejmujemy sami, dlatego rozmowa z nami kończy się konkretną kwotą, a nie ogłoszeniem w internecie.</p>
 
-          <div class="why-grid__item">
-            <h3 class="why-grid__title">Kwota, nie widełki</h3>
-            <p class="why-grid__desc">Oferta to liczba na piśmie, ważna 14 dni. Bez negocjacji w ostatniej chwili.</p>
+        <div class="why__grid">
+
+          <div class="why__item">
+            <h3 class="why__title">Bez prowizji</h3>
+            <p class="why__text">Nie pobieramy wynagrodzenia — sami jesteśmy kupującym.</p>
           </div>
 
-          <div class="why-grid__item">
-            <h3 class="why-grid__title">Każdy stan prawny</h3>
-            <p class="why-grid__desc">Spadek, współwłasność, hipoteka, brak drogi dojazdowej — rozwiązujemy to po naszej stronie.</p>
+          <div class="why__item">
+            <h3 class="why__title">Bez zobowiązań</h3>
+            <p class="why__text">Formularz to pytanie o cenę, nie umowa.</p>
           </div>
 
-          <div class="why-grid__item">
-            <h3 class="why-grid__title">Zero kosztów</h3>
-            <p class="why-grid__desc">Notariusz, wypisy, geodeta — płacimy my. Od pierwszej rozmowy znasz kwotę „na rękę".</p>
+          <div class="why__item">
+            <h3 class="why__title">Bez ogłoszeń</h3>
+            <p class="why__text">Twoja działka nie trafia do ogłoszeń ani na baner.</p>
           </div>
 
-          <div class="why-grid__item">
-            <h3 class="why-grid__title">Pełna dyskrecja</h3>
-            <p class="why-grid__desc">Bez ogłoszenia, bez tabliczki, bez telefonów od pośredników.</p>
+          <div class="why__item">
+            <h3 class="why__title">Białystok i okolice</h3>
+            <p class="why__text">Także Wasilków, Supraśl, Choroszcz, Juchnowiec, Zabłudów i Dobrzyniewo.</p>
           </div>
 
         </div>
       </div>
     </section>
 
-    <section class="section content-section content-section--surface" id="faq">
+    <section id="faq" class="faq">
       <div class="container">
-        <h2 class="content-section__title">Najczęstsze pytania</h2>
+        <h2>Częste pytania</h2>
 
-        <div class="faq-list">
+        <div class="faq__list">
 
-          <details class="faq-item" open>
-            <summary class="faq-item__question">Jak sprzedać działkę w Białymstoku bez pośrednika?</summary>
-            <div class="faq-item__answer">
-              <p>Wystarczy zgłoszenie — adres lub numer działki. W 24 godziny dostajesz konkretną ofertę, a jeśli ją przyjmiesz, resztą formalności zajmujemy się my. Bez umowy pośrednictwa i bez prowizji.</p>
+          <details class="faq__item" open>
+            <summary class="faq__q">Czy coś płacę?</summary>
+            <div class="faq__a">
+              <p>Nie. Analiza i wycena są bezpłatne, a prowizji nie pobieramy.</p>
             </div>
           </details>
 
-          <details class="faq-item">
-            <summary class="faq-item__question">Czy kupujecie działki bez warunków zabudowy?</summary>
-            <div class="faq-item__answer">
-              <p>Tak. Brak warunków zabudowy czy planu miejscowego to dla nas standardowa sytuacja — potencjał działki sprawdzamy sami i uwzględniamy go w ofercie.</p>
+          <details class="faq__item">
+            <summary class="faq__q">Skąd mam wiedzieć, że to nie naciągacze?</summary>
+            <div class="faq__a">
+              <p>Kupujemy na własny rachunek, więc nie podpisujesz umowy pośrednictwa ani wyłączności. Cenę i warunki znasz przed decyzją, a sprzedaż odbywa się u notariusza.</p>
             </div>
           </details>
 
-          <details class="faq-item">
-            <summary class="faq-item__question">Ile płacicie za metr kwadratowy działki?</summary>
-            <div class="faq-item__answer">
-              <p>Nie mamy jednego cennika, bo o wartości decydują lokalizacja, przeznaczenie w planie, dojazd i otoczenie. Dlatego zamiast widełek dostajesz konkretną kwotę dla Twojej działki — bezpłatnie i w 24 godziny.</p>
+          <details class="faq__item">
+            <summary class="faq__q">Ile to trwa?</summary>
+            <div class="faq__a">
+              <p>Wycenę dostajesz zwykle w ciągu kilku dni roboczych. Termin u notariusza ustalamy pod Ciebie.</p>
             </div>
           </details>
 
-          <details class="faq-item">
-            <summary class="faq-item__question">Czy kupujecie działki ze starym domem do rozbiórki?</summary>
-            <div class="faq-item__answer">
-              <p>Tak, to jedna z naszych specjalności. Kupujemy grunt z zabudową w dowolnym stanie technicznym — rozbiórkę i formalności z nią związane bierzemy na siebie.</p>
+          <details class="faq__item">
+            <summary class="faq__q">Mam spadek, współwłasność albo hipotekę.</summary>
+            <div class="faq__a">
+              <p>To dla nas normalna sytuacja. Sprawdzamy stan prawny i mówimy wprost, co trzeba uporządkować.</p>
             </div>
           </details>
 
-          <details class="faq-item">
-            <summary class="faq-item__question">Jak długo trwa sprzedaż działki?</summary>
-            <div class="faq-item__answer">
-              <p>Ofertę masz w 24 godziny, akt notarialny podpisujemy średnio w 14 dni — najwięcej czasu zajmuje zwykle kompletowanie dokumentów, w czym pomagamy. Pieniądze otrzymujesz w dniu aktu.</p>
-            </div>
-          </details>
-
-          <details class="faq-item">
-            <summary class="faq-item__question">Czy kupujecie tylko działki?</summary>
-            <div class="faq-item__answer">
-              <p>Grunty to nasza specjalizacja, ale kupujemy też domy i nieruchomości komercyjne w Białymstoku i okolicach. Zgłoś nieruchomość przez formularz — ocenimy ją równie szybko.</p>
+          <details class="faq__item">
+            <summary class="faq__q">Czy zgłoszenie do czegoś mnie zobowiązuje?</summary>
+            <div class="faq__a">
+              <p>Nie. Możesz wycofać się na każdym etapie aż do aktu notarialnego.</p>
             </div>
           </details>
 
@@ -344,54 +342,39 @@
       </div>
     </section>
 
-    <section class="section final-cta">
-      <div class="container final-cta__inner">
-        <h2 class="final-cta__title">Sprawdź, ile jest warta Twoja działka</h2>
-        <p class="final-cta__subtitle">
-          Bez zobowiązań i bez kosztów. Konkretna kwota w 24 godziny.
-        </p>
-        <a href="tel:+48500441500" class="final-cta__phone">500 441 500</a>
-        <a href="#zglos" class="btn btn--inverse">Poznaj wycenę</a>
+    <section class="cta-final">
+      <div class="container">
+        <h2 class="cta-final__claim">Podaj numer działki. Resztę sprawdzimy my.</h2>
+        <p class="cta-final__text">Wstępna analiza jest bezpłatna i do niczego nie zobowiązuje.</p>
+        <a href="#zglos" class="cta-final__btn">ZGŁOŚ DZIAŁKĘ</a>
+        <p class="cta-final__alt">albo zadzwoń teraz: <a href="tel:+48500441500">500 441 500</a></p>
       </div>
     </section>
   </main>
 
-  <footer class="site-footer">
-    <div class="container site-footer__inner">
+  <footer id="kontakt" class="site-footer">
+    <div class="container">
       <div class="site-footer__brand">
-        <div class="site-footer__name">Nowy Rozdział</div>
-        <!-- city -->
-        <p class="site-footer__tagline">Skup działek — Białystok i okolice</p>
+        <div class="site-footer__name">GruntWart</div>
+        <p class="site-footer__tag">Bezpośredni zakup działek. Białystok i okolice.</p>
+        <a href="tel:+48500441500" class="site-footer__phone">500 441 500</a>
       </div>
 
-      <div class="site-footer__contact">
-        <a href="tel:+48500441500" class="site-footer__link">500 441 500</a>
-        <a href="mailto:info@nowyrozdzial.pl" class="site-footer__link">info@nowyrozdzial.pl</a>
-      </div>
-
-      <div class="site-footer__legal">
+      <nav class="site-footer__links" aria-label="Nawigacja w stopce">
+        <a href="#co-kupujemy" class="site-footer__link">Co kupujemy</a>
+        <a href="#jak-dzialamy" class="site-footer__link">Jak działamy</a>
+        <a href="#o-nas" class="site-footer__link">Z kim rozmawiasz</a>
+        <a href="#faq" class="site-footer__link">Częste pytania</a>
         <a href="/polityka-prywatnosci.html" class="site-footer__link">Polityka prywatności</a>
-      </div>
-    </div>
+      </nav>
 
-    <div class="container site-footer__bottom">
-      <p>© <span id="footerYear">2026</span> Nowy Rozdział. Wszystkie prawa zastrzeżone.</p>
+      <p class="site-footer__bottom">© <span id="footerYear">2026</span> GruntWart. Treści na stronie mają charakter informacyjny i nie stanowią oferty w rozumieniu Kodeksu cywilnego.</p>
     </div>
   </footer>
 
-  <a href="tel:+48500441500" class="call-fab" aria-label="Zadzwoń: 500 441 500">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
-    </svg>
-  </a>
-
-  <div class="cookie-banner" id="cookieBanner" hidden>
-    <div class="container cookie-banner__inner">
-      <p class="cookie-banner__text">
-        Ta strona używa wyłącznie technicznych plików cookies niezbędnych do jej działania. Szczegóły w <a href="/polityka-prywatnosci.html">polityce prywatności</a>.
-      </p>
-      <button type="button" class="btn btn--primary cookie-banner__btn" id="cookieAccept">Rozumiem</button>
-    </div>
+  <div class="mobile-bar">
+    <a href="tel:+48500441500" class="mobile-bar__btn mobile-bar__btn--call">ZADZWOŃ</a>
+    <a href="#zglos" class="mobile-bar__btn mobile-bar__btn--cta">ZGŁOŚ DZIAŁKĘ</a>
   </div>
 
   <script src="/assets/js/config.js"></script>
@@ -405,50 +388,42 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "Jak sprzedać działkę w Białymstoku bez pośrednika?",
+        "name": "Czy coś płacę?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Wystarczy zgłoszenie — adres lub numer działki. W 24 godziny dostajesz konkretną ofertę, a jeśli ją przyjmiesz, resztą formalności zajmujemy się my. Bez umowy pośrednictwa i bez prowizji."
+          "text": "Nie. Analiza i wycena są bezpłatne, a prowizji nie pobieramy."
         }
       },
       {
         "@type": "Question",
-        "name": "Czy kupujecie działki bez warunków zabudowy?",
+        "name": "Skąd mam wiedzieć, że to nie naciągacze?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Tak. Brak warunków zabudowy czy planu miejscowego to dla nas standardowa sytuacja — potencjał działki sprawdzamy sami i uwzględniamy go w ofercie."
+          "text": "Kupujemy na własny rachunek, więc nie podpisujesz umowy pośrednictwa ani wyłączności. Cenę i warunki znasz przed decyzją, a sprzedaż odbywa się u notariusza."
         }
       },
       {
         "@type": "Question",
-        "name": "Ile płacicie za metr kwadratowy działki?",
+        "name": "Ile to trwa?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Nie mamy jednego cennika, bo o wartości decydują lokalizacja, przeznaczenie w planie, dojazd i otoczenie. Dlatego zamiast widełek dostajesz konkretną kwotę dla Twojej działki — bezpłatnie i w 24 godziny."
+          "text": "Wycenę dostajesz zwykle w ciągu kilku dni roboczych. Termin u notariusza ustalamy pod Ciebie."
         }
       },
       {
         "@type": "Question",
-        "name": "Czy kupujecie działki ze starym domem do rozbiórki?",
+        "name": "Mam spadek, współwłasność albo hipotekę.",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Tak, to jedna z naszych specjalności. Kupujemy grunt z zabudową w dowolnym stanie technicznym — rozbiórkę i formalności z nią związane bierzemy na siebie."
+          "text": "To dla nas normalna sytuacja. Sprawdzamy stan prawny i mówimy wprost, co trzeba uporządkować."
         }
       },
       {
         "@type": "Question",
-        "name": "Jak długo trwa sprzedaż działki?",
+        "name": "Czy zgłoszenie do czegoś mnie zobowiązuje?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Ofertę masz w 24 godziny, akt notarialny podpisujemy średnio w 14 dni — najwięcej czasu zajmuje zwykle kompletowanie dokumentów, w czym pomagamy. Pieniądze otrzymujesz w dniu aktu."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Czy kupujecie tylko działki?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Grunty to nasza specjalizacja, ale kupujemy też domy i nieruchomości komercyjne w Białymstoku i okolicach. Zgłoś nieruchomość przez formularz — ocenimy ją równie szybko."
+          "text": "Nie. Możesz wycofać się na każdym etapie aż do aktu notarialnego."
         }
       }
     ]
@@ -459,12 +434,25 @@
   {
     "@context": "https://schema.org",
     "@type": "RealEstateAgent",
-    "name": "Nowy Rozdział",
+    "name": "GruntWart",
+    "url": "https://gruntwart.pl/",
+    "image": "https://gruntwart.pl/assets/img/og-image.jpg",
     "telephone": "+48500441500",
-    "email": "info@nowyrozdzial.pl",
-    "url": "https://nowyrozdzial.pl",
-    "areaServed": ["Białystok", "Wasilków", "Supraśl", "Choroszcz", "Łapy", "Juchnowiec Kościelny"],
-    "priceRange": "PLN"
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Białystok",
+      "addressRegion": "podlaskie",
+      "addressCountry": "PL"
+    },
+    "areaServed": [
+      "Białystok",
+      "Wasilków",
+      "Supraśl",
+      "Choroszcz",
+      "Juchnowiec Kościelny",
+      "Zabłudów",
+      "Dobrzyniewo Duże"
+    ]
   }
   </script>
 </body>

@@ -2,6 +2,41 @@
    Base
    ============================================ */
 
+/* Wysokość stale widocznego .mobile-bar: 0 na desktopie, 64px poniżej 768px.
+   W zmiennej, bo tę samą liczbę czyta rezerwa scrolla i rezerwa pod banerem. */
+:root {
+  --bar-h: 0px;
+}
+
+@media (max-width: 768px) {
+  /* :has() zawęża regułę do stron, które pasek faktycznie mają — podstrony
+     nie dostają pustej rezerwy, dokładnie jak przy padding-bottom body. */
+  :root:has(.mobile-bar) {
+    --bar-h: 64px;
+  }
+}
+
+/* Kotwice nie chowają się pod sticky headerem także przy wejściu z adresu
+   z hashem (JS-owy offset działa tylko przy kliknięciu w link).
+   Symetrycznie od dołu: bez scroll-padding-bottom przeglądarka wyrównuje cel
+   do dolnej krawędzi okna, czyli DOKŁADNIE pod .mobile-bar — stop focusa
+   niższy niż 64px znika w całości (WCAG 2.4.11). */
+html {
+  scroll-padding-top: 90px;
+  scroll-padding-bottom: calc(var(--bar-h) + env(safe-area-inset-bottom));
+}
+
+/* Dopóki wisi baner cookies, rezerwujemy też JEGO wysokość (--cb-h mierzy
+   ui.js): każdy element da się wtedy wyprowadzić spod banera scrollem, a focus
+   nigdy nie ląduje pod nim. */
+html:has(.cookie-banner.is-visible) {
+  scroll-padding-bottom: calc(var(--bar-h) + var(--cb-h, 140px) + env(safe-area-inset-bottom));
+}
+
+body:has(.cookie-banner.is-visible) {
+  padding-bottom: calc(var(--bar-h) + var(--cb-h, 140px) + env(safe-area-inset-bottom));
+}
+
 body {
   font-family: var(--font-sans);
   font-size: var(--fs-body);
@@ -193,10 +228,18 @@ section {
   flex-shrink: 0;
 }
 
+/* min-height/min-width 44px: poniżej 640px zostaje sama ikona 18x18 i bez
+   tego cel dotykowy schodzi pod minimum WCAG 2.5.8 (24x24). Ujemny margines
+   kompensuje padding, żeby układ headera nie urósł. */
 .site-header__phone {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0 4px;
+  margin: -8px -4px;
   font-family: var(--font-sans);
   font-weight: 600;
   font-size: 0.9375rem;
@@ -297,23 +340,29 @@ section {
   margin: 0;
 }
 
+/* Hasło marki — linia wspierająca, NIE nagłówek. Świadomie mniejsze od <h1>:
+   zimny użytkownik z reklamy ma najpierw zobaczyć ofertę, nie slogan. */
 .claim {
   font-family: var(--font-serif);
   font-weight: 400;
-  font-size: clamp(2.1rem, 3.6vw, 3.1rem);
-  line-height: 1.08;
-  letter-spacing: -0.01em;
+  font-size: clamp(1.125rem, 1.6vw, 1.375rem);
+  line-height: 1.3;
+  letter-spacing: 0;
   color: var(--color-accent);
   margin: 0;
 }
 
+/* <h1> = najmocniejszy element hero i największy nagłówek na stronie
+   (musi przebijać <h2> sekcji, które mają var(--fs-h2)). Górny kraniec
+   clamp-a jest niższy niż --fs-h1, żeby formularz nie spadł poniżej
+   pierwszego ekranu na mobile — to świadomy kompromis pod konwersję. */
 .hero__title {
-  font-size: clamp(1.1875rem, 1.7vw, 1.4375rem);
-  font-weight: 500;
-  line-height: 1.35;
-  letter-spacing: 0;
+  font-size: clamp(1.875rem, 3.4vw, 2.9rem);
+  font-weight: 400;
+  line-height: 1.14;
+  letter-spacing: -0.01em;
   color: var(--color-ink);
-  margin: 2px 0 0;
+  margin: 4px 0 0;
 }
 
 .hero__lead {
@@ -324,57 +373,32 @@ section {
   margin: 0;
 }
 
-.hero__points {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  margin: 6px 0 0;
-  padding: 0;
-  list-style: none;
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: var(--color-ink-soft);
-}
-
-.hero__points li:not(:last-child)::after {
-  content: "\00B7";
-  margin-inline: 10px;
-  font-weight: 400;
-  color: var(--color-line);
-}
-
 @media (max-width: 768px) {
   .hero__knights {
     display: none;
   }
 
+  /* Pierwszy ekran mobile: każdy piksel nad kartą #zglos jest kosztem.
+     Sztywne 20px zamiast clamp(28px,5vh,48px) — układ przestaje zależeć od
+     wysokości okna, a realne okno in-app FB/IG ma ~734px, nie 844px. */
+  .hero {
+    padding-top: 20px;
+  }
+
   .hero__inner {
     grid-template-columns: 1fr;
+    gap: 20px;
   }
 
   .hero__content {
-    gap: 12px;
+    gap: 10px;
     padding-top: 0;
   }
 
+  /* Eyebrow dubluje logo z headera stojące ~40px wyżej i wciska się między
+     hasło a H1. Na desktopie stoi NAD hasłem i ma sens — tam zostaje. */
   .hero__eyebrow {
-    order: 2;
-  }
-
-  .claim {
-    order: 1;
-  }
-
-  .hero__title {
-    order: 3;
-  }
-
-  .hero__lead {
-    order: 4;
-  }
-
-  .hero__points {
-    order: 5;
+    display: none;
   }
 }
 
@@ -385,6 +409,15 @@ section {
 :focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 2px;
+}
+
+/* Na ciemnych tłach obwódka --color-accent (#1E4D3B) jest niewidoczna: .cta-final
+   ma DOKŁADNIE ten sam kolor tła (kontrast 1.0), baner cookies --color-ink (1.62),
+   a outline-offset kładzie obwódkę w całości poza kontrolką, na tym tle.
+   Wymagane 3:1 (WCAG 1.4.11 / 2.4.13); biel daje na obu tłach > 7:1. */
+.cta-final :focus-visible,
+.cookie-banner :focus-visible {
+  outline-color: #FFFFFF;
 }
 
 /* ============================================
@@ -405,14 +438,6 @@ section {
   font-size: 1.375rem;
   text-align: center;
   margin-bottom: 6px;
-}
-
-.lead-form__intro {
-  text-align: center;
-  font-size: 0.8125rem;
-  line-height: 1.5;
-  color: var(--color-ink-soft);
-  margin-bottom: 18px;
 }
 
 .form__field {
@@ -454,6 +479,14 @@ section {
   min-height: 1.2em;
   font-size: 0.8125rem;
   color: var(--color-error);
+}
+
+/* Puste komunikaty nie rezerwują wysokości. ŚWIADOMIE nie używamy display:none:
+   te <p> mają role="alert" i muszą zostać w drzewie dostępności, żeby czytnik
+   ekranu ogłosił błąd walidacji (element ukryty i pokazany w tym samym ticku,
+   w którym dostaje treść, bywa pomijany przez NVDA/JAWS/VoiceOver). */
+.form__error:empty {
+  min-height: 0;
 }
 
 /* ----- Consent checkbox ----- */
@@ -512,7 +545,7 @@ section {
 }
 
 .lead-form__note {
-  margin-top: 10px;
+  margin: 0 0 10px;
   text-align: center;
   font-size: 0.8125rem;
   color: var(--color-ink-soft);
@@ -539,6 +572,40 @@ section {
 
 .form__feedback.is-error {
   color: var(--color-error);
+}
+
+/* Ta sama zasada co przy .form__error — element zostaje (role="status"),
+   znika tylko rezerwacja miejsca. Odzyskuje ~29px pod przyciskiem, dzięki
+   czemu link „Zadzwoń" mieści się na ekranie także przy oknie 734px. */
+.form__feedback:empty {
+  min-height: 0;
+  margin-top: 0;
+}
+
+/* Zagęszczenie karty na mobile. NIENARUSZALNE cele dotykowe: input 48px,
+   #formSubmit 55.6px, checkbox zgody. Ruszamy wyłącznie typografię i odstępy. */
+@media (max-width: 768px) {
+  .lead-form {
+    padding: 18px;
+  }
+
+  .lead-form__title {
+    font-size: 1.25rem;
+    margin-bottom: 4px;
+  }
+
+  .form__field {
+    gap: 5px;
+    margin-bottom: 12px;
+  }
+
+  .form__field label {
+    line-height: 1.3;
+  }
+
+  .form__field--checkbox {
+    margin-bottom: 12px;
+  }
 }
 
 /* ============================================
@@ -587,27 +654,33 @@ section {
 }
 
 /* ============================================
-   Content sections — co skupujemy / kroki / dlaczego my
+   Sekcje treściowe — wspólny rytm
    ============================================ */
 
-.content-section--surface {
-  background: var(--color-surface);
-}
-
-.content-section__title {
+/* Tytuł sekcji: wyśrodkowany, ten sam odstęp na całej stronie */
+.buy > .container > h2,
+.steps > .container > h2,
+.why > .container > h2,
+.faq > .container > h2 {
   text-align: center;
   margin-bottom: clamp(40px, 6vw, 64px);
 }
 
-/* ----- Co skupujemy: cards-3 ----- */
+/* Naprzemienny rytm teł: buy (bg) → steps (surface) → why (bg) → faq (surface) */
+.steps,
+.faq {
+  background: var(--color-surface);
+}
 
-.cards-3 {
+/* ----- Co kupujemy: buy ----- */
+
+.buy__grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: clamp(32px, 4vw, 56px);
 }
 
-.cards-3__card {
+.buy__card {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -615,7 +688,7 @@ section {
   text-align: center;
 }
 
-.cards-3__icon {
+.buy__icon {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -627,66 +700,40 @@ section {
   color: var(--color-accent);
 }
 
-.cards-3__title {
+.buy__title {
   font-size: 1.1875rem;
   font-weight: 600;
 }
 
-.cards-3__desc {
-  color: var(--color-ink-soft);
+.buy__text {
   max-width: 32ch;
-}
-
-.cards-3__local {
-  margin-top: clamp(40px, 6vw, 56px);
-  padding-top: clamp(32px, 5vw, 40px);
-  border-top: 1px solid var(--color-line);
-  text-align: center;
+  margin-inline: auto;
   color: var(--color-ink-soft);
-  font-size: 0.9375rem;
 }
 
 @media (max-width: 860px) {
-  .cards-3 {
+  .buy__grid {
     grid-template-columns: 1fr;
     gap: 40px;
   }
 }
 
-/* ----- Pasek: poza gruntami kupujemy też... ----- */
+/* ----- Jak działamy: steps ----- */
 
-.beyond-strip {
-  border-top: 1px solid var(--color-line);
-  border-bottom: 1px solid var(--color-line);
-  padding-block: 20px;
-}
-
-.beyond-strip__text {
-  margin: 0;
-  text-align: center;
-  color: var(--color-ink-soft);
-  font-size: 0.9375rem;
-}
-
-/* ----- Sprzedaż w trzech krokach: steps ----- */
-
-.steps {
+.steps__grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: clamp(40px, 5vw, 56px);
-  list-style: none;
-  margin: 0;
-  padding: 0;
 }
 
-.steps__step {
+.steps__item {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
 }
 
-.steps__number {
+.steps__num {
   font-family: var(--font-serif);
   font-size: clamp(3.25rem, 6vw, 4.75rem);
   line-height: 1;
@@ -700,21 +747,82 @@ section {
   margin-bottom: 8px;
 }
 
-.steps__desc {
-  color: var(--color-ink-soft);
+.steps__text {
   max-width: 30ch;
+  color: var(--color-ink-soft);
 }
 
-@media (max-width: 860px) {
-  .steps {
-    grid-template-columns: 1fr;
-    gap: 48px;
+/* CTA w połowie strony — wyłącznie desktop. Na mobile jest zbędne, bo tam
+   działa .mobile-bar; czwarty identyczny przycisk tylko rozmywałby uwagę. */
+.mid-cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 20px 28px;
+  margin-top: clamp(40px, 5vw, 56px);
+}
+
+.mid-cta__text {
+  font-family: var(--font-serif);
+  font-size: 1.125rem;
+  color: var(--color-ink);
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .mid-cta {
+    display: none;
   }
 }
 
-/* ----- Dlaczego Nowy Rozdział: why-grid ----- */
+/* Na wąskim ekranie krok czyta się lepiej w wierszu: numer z lewej,
+   treść z prawej. Krótsza kolumna = mniej przewijania do CTA. */
+@media (max-width: 860px) {
+  .steps__grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    max-width: 520px;
+    margin-inline: auto;
+  }
 
-.why-grid {
+  .steps__item {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    column-gap: 18px;
+    align-items: start;
+    text-align: left;
+  }
+
+  .steps__num {
+    grid-row: 1 / span 2;
+    font-size: 2.75rem;
+    margin-bottom: 0;
+  }
+
+  .steps__title {
+    margin-bottom: 4px;
+  }
+
+  .steps__text {
+    max-width: none;
+  }
+}
+
+/* ----- Z kim rozmawiasz: why ----- */
+
+.why > .container > h2 {
+  margin-bottom: 16px;
+}
+
+.why__lead {
+  max-width: 62ch;
+  margin: 0 auto clamp(40px, 6vw, 56px);
+  text-align: center;
+  color: var(--color-ink-soft);
+}
+
+.why__grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: clamp(40px, 5vw, 56px) clamp(48px, 6vw, 80px);
@@ -722,7 +830,7 @@ section {
   margin-inline: auto;
 }
 
-.why-grid__item::before {
+.why__item::before {
   content: "";
   display: block;
   width: 8px;
@@ -732,41 +840,41 @@ section {
   margin-bottom: 16px;
 }
 
-.why-grid__title {
+.why__title {
   font-size: 1.0625rem;
   font-weight: 600;
   margin-bottom: 6px;
 }
 
-.why-grid__desc {
+.why__text {
   color: var(--color-ink-soft);
 }
 
 @media (max-width: 640px) {
-  .why-grid {
+  .why__grid {
     grid-template-columns: 1fr;
-    gap: 32px;
+    gap: 28px;
   }
 }
 
-/* ----- Najczęstsze pytania: faq-list ----- */
+/* ----- Częste pytania: faq ----- */
 
-.faq-list {
-  max-width: 800px;
-  margin-inline: auto;
+.faq__list {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  max-width: 800px;
+  margin-inline: auto;
 }
 
-.faq-item {
+.faq__item {
   border: 1px solid var(--color-line);
   border-radius: var(--radius);
   padding: 4px 24px;
   background: var(--color-bg);
 }
 
-.faq-item__question {
+.faq__q {
   list-style: none;
   display: flex;
   align-items: center;
@@ -777,34 +885,52 @@ section {
   cursor: pointer;
 }
 
-.faq-item__question::-webkit-details-marker {
+.faq__q::-webkit-details-marker {
   display: none;
 }
 
-.faq-item__question::after {
-  content: "+";
+.faq__q:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: 10px;
+}
+
+/* Wskaźnik rozwinięcia: chevron z dwóch krawędzi, obrót przy otwarciu */
+.faq__q::after {
+  content: "";
   flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  font-size: 1.25rem;
-  line-height: 1;
-  color: var(--color-accent);
+  width: 9px;
+  height: 9px;
+  margin-right: 4px;
+  border-right: 2px solid var(--color-accent);
+  border-bottom: 2px solid var(--color-accent);
+  transform: rotate(45deg);
+  transition: transform 200ms ease;
 }
 
-.faq-item[open] .faq-item__question::after {
-  content: "\2212";
+.faq__item[open] .faq__q::after {
+  transform: rotate(-135deg);
 }
 
-.faq-item__answer {
+.faq__a {
   padding-bottom: 20px;
   color: var(--color-ink-soft);
+  animation: faq-reveal 200ms ease;
+}
+
+@keyframes faq-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @media (max-width: 640px) {
-  .faq-item {
+  .faq__item {
     padding-inline: 20px;
   }
 }
@@ -813,39 +939,90 @@ section {
    Finalne CTA — jedyny ciemny moment na stronie
    ============================================ */
 
-.final-cta {
+.cta-final {
   background: var(--color-accent);
-}
-
-.final-cta__inner {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  max-width: 640px;
   text-align: center;
 }
 
-.final-cta__title {
+.cta-final__claim {
+  max-width: 20ch;
+  margin-inline: auto;
+  line-height: 1.15;
   color: #FFFFFF;
 }
 
-.final-cta__subtitle {
+/* Jedyne użycie złota poza eyebrow w hero — cienka kreska nad hasłem */
+.cta-final__claim::before {
+  content: "";
+  display: block;
+  width: 40px;
+  height: 2px;
+  margin: 0 auto 24px;
+  background: var(--color-gold);
+}
+
+.cta-final__text {
+  max-width: 46ch;
+  margin: 18px auto 0;
   color: rgba(255, 255, 255, 0.82);
-  max-width: 42ch;
 }
 
-.final-cta__phone {
-  font-family: var(--font-serif);
-  font-size: clamp(2.2rem, 6vw, 3.75rem);
+.cta-final__text a {
   color: #FFFFFF;
-  text-decoration: none;
-  letter-spacing: 0.01em;
-  margin-block: 8px;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
-.final-cta__phone:hover {
-  opacity: 0.85;
+/* Druga, natychmiastowa ścieżka z końcowego CTA: bez skoku o kilka ekranów
+   w górę do formularza. Telefon działa jednym dotknięciem, tu i teraz. */
+.cta-final__alt {
+  margin: 18px 0 0;
+  font-size: 0.9375rem;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.cta-final__alt a {
+  display: inline-block;
+  min-height: 44px;
+  padding: 10px 4px;
+  color: #FFFFFF;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Przycisk nie dziedziczy po .btn — pełna definicja wariantu odwróconego */
+.cta-final__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 52px;
+  margin-top: 32px;
+  padding: 14px 32px;
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  border-radius: var(--radius);
+  background: #FFFFFF;
+  color: var(--color-accent);
+  border: 1px solid #FFFFFF;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 150ms ease, border-color 150ms ease;
+}
+
+.cta-final__btn:hover {
+  background: var(--color-accent-soft);
+  border-color: var(--color-accent-soft);
+}
+
+@media (max-width: 640px) {
+  .cta-final__btn {
+    width: 100%;
+  }
 }
 
 /* ============================================
@@ -853,91 +1030,216 @@ section {
    ============================================ */
 
 .site-footer {
-  background: var(--color-accent-hover);
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-line);
 }
 
+/* Wiersz stopki: marka z lewej, linki z prawej. Działa zarówno gdy treść
+   leży wprost w .container (index), jak i gdy podstrony opakowują ją
+   dodatkowo w .site-footer__inner. */
+.site-footer > .container:not(.site-footer__bottom),
 .site-footer__inner {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   justify-content: space-between;
-  align-items: flex-start;
-  gap: 32px;
-  padding-block: 56px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  gap: 28px 40px;
+  padding-block: clamp(40px, 6vh, 56px) 0;
+}
+
+.site-footer__brand {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .site-footer__name {
   font-family: var(--font-serif);
   font-size: 1.25rem;
-  color: #FFFFFF;
+  color: var(--color-ink);
 }
 
-.site-footer__tagline {
-  margin-top: 4px;
-  color: rgba(255, 255, 255, 0.6);
+.site-footer__tag {
   font-size: 0.9375rem;
+  color: var(--color-ink-soft);
 }
 
-.site-footer__contact,
-.site-footer__legal {
+.site-footer__phone {
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+  margin-top: 6px;
+  font-family: var(--font-serif);
+  font-size: clamp(1.75rem, 5vw, 2.125rem);
+  letter-spacing: 0.01em;
+  color: var(--color-accent);
+}
+
+.site-footer__phone:hover {
+  color: var(--color-accent-hover);
+}
+
+.site-footer__links {
   display: flex;
-  flex-direction: column;
-  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 24px;
 }
 
 .site-footer__link {
-  color: rgba(255, 255, 255, 0.75);
-  text-decoration: none;
   font-size: 0.9375rem;
+  color: var(--color-ink-soft);
 }
 
 .site-footer__link:hover {
-  color: #FFFFFF;
+  color: var(--color-accent);
 }
 
 .site-footer__bottom {
+  width: 100%;
+  margin-top: clamp(32px, 5vw, 40px);
   padding-block: 20px;
+  border-top: 1px solid var(--color-line);
   text-align: center;
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--color-ink-soft);
   font-size: 0.8125rem;
 }
 
 @media (max-width: 640px) {
+  .site-footer > .container:not(.site-footer__bottom),
   .site-footer__inner {
     flex-direction: column;
-    gap: 24px;
-    padding-block: 40px;
+    align-items: center;
+    text-align: center;
+    gap: 20px;
+    padding-block: 40px 0;
+  }
+
+  .site-footer__brand {
+    align-items: center;
+  }
+
+  .site-footer__links {
+    justify-content: center;
   }
 }
 
 /* ============================================
-   Call FAB — pływający przycisk połączenia (mobile)
+   Mobilny pasek CTA — główny kanał konwersji (< 768px)
    ============================================ */
 
-.call-fab {
+/* Wysokość paska to dokładnie 64px (8px + 48px przycisku + 8px) plus
+   bezpieczny obszar iOS. Hairline u góry rysujemy cieniem wewnętrznym,
+   żeby nie dokładał pikseli do tej wysokości. */
+.mobile-bar {
   display: none;
   position: fixed;
-  right: 16px;
-  bottom: 16px;
-  width: 56px;
-  height: 56px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 90;
+  gap: 10px;
+  padding: 8px 12px;
+  padding-bottom: calc(8px + env(safe-area-inset-bottom));
+  background: rgba(253, 252, 250, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: inset 0 1px 0 var(--color-line);
+}
+
+.mobile-bar__btn {
+  flex: 1 1 0;
+  min-width: 0;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
+  min-height: 48px;
+  padding: 10px 8px;
+  font-family: var(--font-sans);
+  font-size: clamp(0.8125rem, 3.9vw, 0.9375rem);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  border-radius: var(--radius);
+  text-decoration: none;
+  transition: background 150ms ease, color 150ms ease, border-color 150ms ease;
+}
+
+.mobile-bar__btn--call {
+  background: transparent;
+  color: var(--color-accent);
+  border: 1px solid var(--color-accent);
+}
+
+.mobile-bar__btn--call:hover,
+.mobile-bar__btn--call:active {
+  background: var(--color-accent-soft);
+}
+
+.mobile-bar__btn--cta {
   background: var(--color-accent);
   color: #FFFFFF;
-  box-shadow: 0 4px 16px rgba(26, 38, 32, 0.3);
-  z-index: 90;
-  text-decoration: none;
+  border: 1px solid var(--color-accent);
 }
 
-.call-fab:hover {
+.mobile-bar__btn--cta:hover,
+.mobile-bar__btn--cta:active {
   background: var(--color-accent-hover);
+  border-color: var(--color-accent-hover);
 }
 
-@media (max-width: 767px) {
-  .call-fab {
+@media (max-width: 768px) {
+  .mobile-bar {
     display: flex;
+  }
+
+  /* Treść nie chowa się pod paskiem. :has() zawęża regułę do stron, które
+     pasek faktycznie mają — podstrony nie dostają pustego marginesu. */
+  body:has(.mobile-bar) {
+    padding-bottom: calc(64px + env(safe-area-inset-bottom));
+  }
+
+  /* Baner cookies siada NAD paskiem, nie na nim. Podnosimy tylko --cb-bottom;
+     transform ukrywający baner czyta tę samą zmienną, więc w stanie ukrytym
+     baner nadal wyjeżdża CAŁKOWICIE poza ekran i nie zasłania .mobile-bar.
+     Warunek zawężony do paska FAKTYCZNIE widocznego: gdy .mobile-bar jest
+     schowany (a jest dokładnie wtedy, gdy na ekranie stoi formularz), baner
+     siada na samym dole i nie zjada tych 64px z pierwszego ekranu. */
+  body:has(.mobile-bar:not(.is-hidden)) .cookie-banner {
+    --cb-bottom: calc(64px + env(safe-area-inset-bottom));
+  }
+
+  /* CSS-first: pasek jest widoczny domyślnie, dokładnie jak dotąd. Klasę
+     .is-hidden dodaje WYŁĄCZNIE ui.js i tylko po sprawdzeniu wsparcia
+     IntersectionObserver — każda awaria JS degraduje do stanu dzisiejszego
+     (pasek zawsze widoczny), nigdy do utraty CTA. .is-animated włączamy
+     dopiero w drugiej klatce, żeby stan początkowy nie mignął animacją. */
+  .mobile-bar.is-animated {
+    transition: transform 260ms ease, visibility 260ms ease;
+  }
+
+  /* Sam transform chowa pasek WIZUALNIE, ale zostawia oba linki w kolejności
+     focusa — a że to fixed przesunięty poza okno, przeglądarka nie potrafi go
+     doscrollować i klawiatura dostaje dwa martwe taby z niewidoczną obwódką.
+     visibility usuwa je z kolejności focusa i z drzewa dostępności, a przy
+     przejściu do hidden przełącza się dopiero na końcu animacji, więc pasek
+     nadal wyjeżdża płynnie. ui.js dokłada inert. */
+  .mobile-bar.is-hidden {
+    transform: translateY(100%);
+    visibility: hidden;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .faq__q::after,
+  .cta-final__btn,
+  .mobile-bar,
+  .mobile-bar__btn {
+    transition: none;
+  }
+
+  .faq__a {
+    animation: none;
   }
 }
 
@@ -945,21 +1247,33 @@ section {
    Cookie banner
    ============================================ */
 
+/* --cb-bottom to odsunięcie banera od dołu ekranu (0 na desktopie, wysokość
+   .mobile-bar na mobile). Transform ukrywający MUSI je uwzględniać: samo
+   translateY(100%) przesuwa element o własną wysokość, więc przy bottom > 0
+   baner zostawałby częściowo na ekranie i — mając wyższy z-index — przechwytywał
+   dotknięcia przycisków .mobile-bar. pointer-events dokłada zabezpieczenie na
+   czas 400 ms animacji, gdy baner fizycznie przelatuje nad paskiem. */
 .cookie-banner {
+  --cb-bottom: 0px;
   position: fixed;
   left: 0;
   right: 0;
-  bottom: 0;
+  bottom: var(--cb-bottom);
   z-index: 95;
   background: var(--color-ink);
   color: #FFFFFF;
   box-shadow: 0 -8px 24px rgba(26, 38, 32, 0.25);
-  transform: translateY(100%);
-  transition: transform 400ms ease;
+  transform: translateY(calc(100% + var(--cb-bottom)));
+  transition: transform 400ms ease, bottom 260ms ease;
+}
+
+.cookie-banner:not(.is-visible) {
+  pointer-events: none;
 }
 
 .cookie-banner.is-visible {
   transform: translateY(0);
+  pointer-events: auto;
 }
 
 .cookie-banner__inner {
@@ -995,13 +1309,55 @@ section {
   border-color: var(--color-accent-soft);
 }
 
+.cookie-banner__actions {
+  display: flex;
+  flex-shrink: 0;
+  gap: 10px;
+}
+
+/* Odmowa musi być tak samo łatwa jak zgoda — przycisk jest równorzędny
+   wizualnie, nie schowany pod linkiem ani krzyżykiem. */
+.cookie-banner__btn--decline {
+  background: transparent;
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+.cookie-banner__btn--decline:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: #FFFFFF;
+}
+
+/* Wariant kompaktowy. Układ w wierszu ściskał tekst do wąskiej kolumny obok
+   przycisków, przez co baner rósł do 166px i przykrywał checkbox zgody oraz
+   #formSubmit — dotknięcie w środek przycisku trafiało w baner. Kolumna daje
+   tekstowi pełną szerokość (2 linie zamiast pięciu), a przyciski schodzą POD
+   tekst i dostają pełne 48px celu. Warunek tej wysokości to krótki tekst. */
 @media (max-width: 640px) {
   .cookie-banner__inner {
     flex-direction: column;
     align-items: stretch;
-    text-align: center;
-    gap: 12px;
-    padding-block: 16px;
+    text-align: left;
+    gap: 8px;
+    padding-block: 10px;
+  }
+
+  .cookie-banner__text {
+    font-size: 0.8125rem;
+    line-height: 1.4;
+  }
+
+  .cookie-banner__actions {
+    width: 100%;
+    gap: 10px;
+  }
+
+  .cookie-banner__btn {
+    flex: 1 1 0;
+    min-width: 0;
+    min-height: 48px;
+    padding: 8px 12px;
+    font-size: 0.875rem;
   }
 }
 

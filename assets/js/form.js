@@ -1,16 +1,17 @@
 /**
  * form.js — walidacja i wysyłka formularza „Zgłoś działkę" (hero) do Web3Forms.
  *
- * Pola: plot — "Numer działki lub lokalizacja" (wymagane), area — "Powierzchnia"
- *   (opcjonalne), phone (wymagane, PHONE_REGEX), consent (wymagane).
+ * Pola: plot — "Numer działki lub lokalizacja" (wymagane), phone (wymagane,
+ *   PHONE_REGEX), consent (wymagane).
  * Format danych: multipart/form-data.
  * API: https://api.web3forms.com/submit
- * Po sukcesie: redirect na /dziekujemy.html (JS, po odpowiedzi fetch).
+ * Po sukcesie: redirect na /dziekujemy.html (JS, po odpowiedzi fetch) + trackLead().
  *   Formularz ma też natywny action= + hidden "redirect" (Web3Forms) — natywna
  *   walidacja (required/typy) nadal chroni użytkowników bez JS, ale sam POST
  *   bez JS zadziała dopiero po wpisaniu na stałe realnego access_key do ukrytego
- *   pola (obecnie puste, bo klucz wstrzykuje JS z config.js) — patrz task-3-report.md.
- * Po błędzie: komunikat inline + dane zachowane w polach.
+ *   pola (obecnie puste, bo klucz wstrzykuje JS z config.js).
+ * Po błędzie: komunikat inline z KLIKALNYM tel: + dane zachowane w polach.
+ * Brak poprawnego klucza (UUID): POST w ogóle nie leci — od razu ścieżka telefoniczna.
  */
 (function () {
   const form = document.getElementById("leadForm");
@@ -22,17 +23,70 @@
 
   const config = window.SITE_CONFIG || {};
 
-  // Wstrzyknij access_key z configu (jeśli ustawione)
+  // Web3Forms akceptuje wyłącznie access_key w formacie UUID. Placeholder,
+  // pusty string czy cokolwiek innego kończy się HTTP 400 i utratą leada,
+  // dlatego sprawdzamy FORMAT, a nie samą "prawdziwość" wartości.
+  const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+  const accessKey = String(config.web3formsKey || "").trim();
+  const hasValidKey = UUID_REGEX.test(accessKey);
+
+  // Wstrzyknij access_key tylko wtedy, gdy jest poprawny — inaczej zostawiamy
+  // pole puste, żeby natywny (bez-JS) POST też nie leciał ze śmieciowym kluczem.
   const accessKeyInput = document.getElementById("formAccessKey");
-  if (accessKeyInput && config.web3formsKey) {
-    accessKeyInput.value = config.web3formsKey;
+  if (accessKeyInput && hasValidKey) {
+    accessKeyInput.value = accessKey;
+  }
+
+  if (!hasValidKey) {
+    console.warn(
+      "[GruntWart] Brak poprawnego web3formsKey w assets/js/config.js " +
+      "(oczekiwany UUID). Formularz NIE wysyła zgłoszeń — użytkownik dostaje " +
+      "ścieżkę ratunkową przez telefon. Wklej klucz z https://web3forms.com."
+    );
   }
 
   const submitBtn = document.getElementById("formSubmit");
   const feedback = document.getElementById("formFeedback");
 
+  // Numer telefonu do komunikatów ratunkowych — format wyświetlany zawsze ze
+  // spacjami, spójnie z resztą serwisu; link tel: bierzemy z phoneIntl.
+  const phoneDisplay = config.phone || "500 441 500";
+  const phoneIntl = config.phoneIntl || "+48500441500";
+
+  /**
+   * Komunikat błędu z KLIKALNYM numerem telefonu (na mobile to jedyna
+   * realna ścieżka ratunku po nieudanej wysyłce). Budujemy węzły DOM,
+   * a nie innerHTML — żadnego wstrzykiwania stringów do markupu.
+   */
+  function showRescue(message) {
+    feedback.className = "form__feedback is-error";
+    feedback.textContent = message + " ";
+    const link = document.createElement("a");
+    link.href = "tel:" + phoneIntl;
+    link.textContent = phoneDisplay;
+    feedback.appendChild(link);
+    feedback.appendChild(document.createTextNode("."));
+  }
+
   // Polski numer telefonu — dopuszczamy 9 cyfr lub +48 + 9 cyfr, z opcjonalnymi spacjami/myślnikami
   const PHONE_REGEX = /^(\+?48[\s-]?)?(\d{3}[\s-]?\d{3}[\s-]?\d{3})$/;
+
+  /**
+   * Pomiar konwersji — bez żadnego zewnętrznego skryptu i bez CDN.
+   * Emitujemy zdarzenie "gruntwart:lead" + wpis do window.dataLayer.
+   * Meta Pixel podpina się do tego zdarzenia w ui.js — ale dopiero po zgodzie
+   * użytkownika i tylko gdy w config.js jest fbPixelId. Kod formularza nie
+   * wymaga żadnych zmian w dniu wdrożenia pixela.
+   */
+  function trackLead() {
+    try {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({ event: "lead_submit", form: "leadForm" });
+      document.dispatchEvent(new CustomEvent("gruntwart:lead", { detail: { form: "leadForm" } }));
+    } catch (e) {
+      /* pomiar nigdy nie może zablokować konwersji */
+    }
+  }
 
   // ----- Walidacja per-pole -----
   function validateField(field) {
@@ -87,7 +141,7 @@
   // ----- Walidacja całego formularza -----
   function validateForm() {
     let ok = true;
-    const inputs = form.querySelectorAll("input[name='plot'], input[name='area'], input[name='phone']");
+    const inputs = form.querySelectorAll("input[name='plot'], input[name='phone']");
     inputs.forEach((input) => {
       if (!validateField(input)) ok = false;
     });
@@ -111,15 +165,31 @@
     if (!validateForm()) {
       feedback.className = "form__feedback is-error";
       feedback.textContent = "Sprawdź zaznaczone pola i spróbuj ponownie.";
-      // Scroll do pierwszego błędu
+      // Po błędzie komunikaty wchodzą do flow (patrz .form__error:empty w CSS)
+      // i karta rośnie o ~15px na pole. Ustawiamy fokus na pierwszym błędnym
+      // polu, żeby ekran przeskoczył DO POLA, a nie żeby przycisk uciekł spod
+      // palca użytkownikowi, który właśnie w niego celuje.
       const firstError = form.querySelector(".has-error");
-      if (firstError) firstError.scrollIntoView({ behavior: "smooth", block: "center" });
+      const firstErrorInput = form.querySelector(".has-error input");
+      if (firstErrorInput) firstErrorInput.focus({ preventScroll: true });
+      if (firstError) {
+        const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        firstError.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "center" });
+      }
       return;
     }
 
     // Honeypot: jeśli wypełniony, udajemy sukces (ale nie wysyłamy)
     if (document.getElementById("botcheck").checked) {
       window.location.href = "/dziekujemy.html";
+      return;
+    }
+
+    // Brak poprawnego klucza = POST zwróciłby 400. Nie udajemy wysyłki i nie
+    // każemy użytkownikowi czekać — od razu dajemy działający kontakt.
+    if (!hasValidKey) {
+      showRescue("Wysyłka formularza jest chwilowo niedostępna. Zadzwoń albo napisz SMS:");
+      feedback.scrollIntoView({ behavior: "smooth", block: "center" });
       return;
     }
 
@@ -135,6 +205,7 @@
       const result = await response.json();
 
       if (result.success) {
+        trackLead();
         window.location.href = "/dziekujemy.html";
       } else {
         throw new Error(result.message || "Submission failed");
@@ -143,9 +214,7 @@
       console.error("Form submission error:", err);
       submitBtn.classList.remove("is-loading");
       submitBtn.disabled = false;
-      feedback.className = "form__feedback is-error";
-      const phone = (config.phone || "500-441-500");
-      feedback.textContent = `Coś poszło nie tak. Spróbuj jeszcze raz lub zadzwoń: ${phone}.`;
+      showRescue("Coś poszło nie tak. Spróbuj jeszcze raz lub zadzwoń:");
     }
   });
 })();
