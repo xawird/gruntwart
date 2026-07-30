@@ -16,8 +16,8 @@ window.SITE_CONFIG = {
 
   // Kontakt — wyłącznie telefon, bez adresu e-mail.
   // phone: format wyświetlany użytkownikowi — ZAWSZE ze spacjami, tak jak w HTML.
-  phone: "500 441 500",
-  phoneIntl: "+48500441500",      // dla tel: linka
+  phone: "728 517 226",
+  phoneIntl: "+48728517226",      // dla tel: linka
 
   // Web3Forms — access key (UUID) wstrzykiwany do pola access_key formularza.
   // >>> WSTAW_KLUCZ_WEB3FORMS <<< — zarejestruj się na https://web3forms.com,
