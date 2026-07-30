@@ -28,7 +28,9 @@
   // z której reklamy/frazy przyszło zgłoszenie. Nie blokuje formularza.
   try {
     const params = new URLSearchParams(window.location.search);
-    ["gclid", "gbraid", "wbraid", "utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content"].forEach((key) => {
+    ["gclid", "gbraid", "wbraid", "utm_source", "utm_medium", "utm_campaign",
+     "utm_adgroup", "utm_term", "utm_content", "utm_matchtype", "utm_device",
+     "utm_network"].forEach((key) => {
       const val = params.get(key);
       if (!val) return;
       const input = document.createElement("input");
