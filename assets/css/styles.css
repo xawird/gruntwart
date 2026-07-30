@@ -286,6 +286,23 @@ section {
   }
 }
 
+/* Najwęższe telefony (min. 360px): logo + ikona telefonu + CTA muszą się
+   zmieścić w jednym wierszu, inaczej header rozpycha całą stronę w bok. */
+@media (max-width: 420px) {
+  .site-header__logo {
+    height: 18px;
+  }
+
+  .site-header__actions {
+    gap: 8px;
+  }
+
+  .site-header__cta {
+    padding: 10px 9px;
+    font-size: 0.75rem;
+  }
+}
+
 /* ============================================
    Hero
    ============================================ */
@@ -395,10 +412,23 @@ section {
     padding-top: 0;
   }
 
-  /* Eyebrow dubluje logo z headera stojące ~40px wyżej i wciska się między
-     hasło a H1. Na desktopie stoi NAD hasłem i ma sens — tam zostaje. */
+  /* Po odwróceniu ról w hero eyebrow niesie jedyną informację "co to za
+     strona" (H1 to slogan) — na mobile zostaje, tylko mniejszy. */
   .hero__eyebrow {
-    display: none;
+    font-size: 0.6875rem;
+  }
+
+  .hero__title {
+    font-size: 1.625rem;
+  }
+
+  .claim {
+    font-size: 1rem;
+  }
+
+  .hero__lead {
+    font-size: 0.875rem;
+    line-height: 1.5;
   }
 }
 
@@ -605,6 +635,21 @@ section {
 
   .form__field--checkbox {
     margin-bottom: 12px;
+  }
+
+  /* Podtytuł karty dubluje hint pola adresu — nad kreską pierwszego
+     ekranu każdy wiersz kosztuje. */
+  .lead-form__sub {
+    display: none;
+  }
+
+  /* 16px zawija "OTRZYMAJ BEZPŁATNĄ WYCENĘ" na dwie linie (przycisk
+     rośnie do ~80px); 14px + wąskie paddingi mieszczą całość w jednej
+     linii nawet na karcie 276px (viewport 360px). */
+  .lead-form__submit {
+    font-size: 0.875rem;
+    padding-left: 10px;
+    padding-right: 10px;
   }
 }
 
