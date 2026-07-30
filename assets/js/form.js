@@ -5,7 +5,8 @@
  *   PHONE_REGEX), consent (wymagane).
  * Format danych: multipart/form-data.
  * API: https://api.web3forms.com/submit
- * Po sukcesie: redirect na /dziekujemy.html (JS, po odpowiedzi fetch) + trackLead().
+ * Po sukcesie: trackLeadAndRedirect() — generate_lead (GA4/Ads) + Meta Lead,
+ *   potem redirect na /dziekujemy.html (JS, po odpowiedzi fetch).
  *   Formularz ma też natywny action= + hidden "redirect" (Web3Forms) — natywna
  *   walidacja (required/typy) nadal chroni użytkowników bez JS, ale sam POST
  *   bez JS zadziała dopiero po wpisaniu na stałe realnego access_key do ukrytego
@@ -16,6 +17,24 @@
 (function () {
   const form = document.getElementById("leadForm");
   if (!form) return;
+
+  // Przechwyć parametry kampanii z URL (gclid + utm_*) i dołącz jako ukryte
+  // pola. Web3Forms wysyła każde nazwane pole, więc w mailu z leadem widać,
+  // z której reklamy/frazy przyszło zgłoszenie. Nie blokuje formularza.
+  try {
+    const params = new URLSearchParams(window.location.search);
+    ["gclid", "utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content"].forEach((key) => {
+      const val = params.get(key);
+      if (!val) return;
+      const input = document.createElement("input");
+      input.type = "hidden";
+      input.name = key;
+      input.value = val;
+      form.appendChild(input);
+    });
+  } catch (e) {
+    /* pomiar nigdy nie może zablokować formularza */
+  }
 
   // Wyłącz natywną walidację dopiero gdy JS działa — bez JS przeglądarka
   // sama pilnuje required/typów przed natywnym POST-em do Web3Forms.
@@ -78,13 +97,38 @@
    * użytkownika i tylko gdy w config.js jest fbPixelId. Kod formularza nie
    * wymaga żadnych zmian w dniu wdrożenia pixela.
    */
-  function trackLead() {
+  // Region z ukrytego pola formularza (bialystok/lodz/ogolna) — trafia do maila
+  // (Web3Forms) i do zdarzeń pomiarowych, żeby było widać źródło leada.
+  function getCity() {
+    const el = form.querySelector('input[name="miasto"]');
+    return (el && el.value) || (document.body && document.body.dataset.city) || "ogolna";
+  }
+
+  // Pomiar konwersji + przekierowanie na podziękowanie. generate_lead (GA4/Ads)
+  // wysyłamy z event_callback, żeby request zdążył wyjść PRZED nawigacją; fallback
+  // (setTimeout) gwarantuje redirect nawet gdy callback nie wróci (np. brak GA).
+  function trackLeadAndRedirect() {
+    const city = getCity();
     try {
       window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({ event: "lead_submit", form: "leadForm" });
-      document.dispatchEvent(new CustomEvent("gruntwart:lead", { detail: { form: "leadForm" } }));
+      window.dataLayer.push({ event: "lead_submit", form: "leadForm", city: city });
+      document.dispatchEvent(new CustomEvent("gruntwart:lead", { detail: { form: "leadForm", city: city } }));
     } catch (e) {
       /* pomiar nigdy nie może zablokować konwersji */
+    }
+
+    let redirected = false;
+    const go = function () {
+      if (redirected) return;
+      redirected = true;
+      window.location.href = "/dziekujemy.html";
+    };
+
+    if (typeof window.gtag === "function") {
+      window.gtag("event", "generate_lead", { city: city, event_callback: go });
+      setTimeout(go, 1000); // bezpiecznik, gdyby callback nie wrócił
+    } else {
+      go();
     }
   }
 
@@ -205,8 +249,7 @@
       const result = await response.json();
 
       if (result.success) {
-        trackLead();
-        window.location.href = "/dziekujemy.html";
+        trackLeadAndRedirect();
       } else {
         throw new Error(result.message || "Submission failed");
       }

@@ -66,11 +66,29 @@
     window.fbq("track", "PageView");
   }
 
+  // Google (Consent Mode v2, gtag w <head>) i Meta Pixel dzielą JEDEN baner.
+  // "Akceptuję" zwalnia oba; "Odrzucam" zostawia zgodę Google na denied i nie
+  // ładuje pixela. Baner pokazujemy tylko, gdy jest co zwalniać: aktywny GA
+  // (podmieniony placeholder — window.__gaActive) albo ustawiony fbPixelId.
+  function grantConsent() {
+    if (typeof window.gtag === "function") {
+      window.gtag("consent", "update", {
+        ad_storage: "granted",
+        ad_user_data: "granted",
+        ad_personalization: "granted",
+        analytics_storage: "granted"
+      });
+    }
+    loadPixel();
+  }
+
+  const consentNeeded = window.__gaActive === true || !!PIXEL_ID;
+
   const cookieBanner = document.getElementById("cookieBanner");
   const cookieAccept = document.getElementById("cookieAccept");
   const cookieDecline = document.getElementById("cookieDecline");
 
-  if (PIXEL_ID && cookieBanner && cookieAccept && cookieDecline) {
+  if (consentNeeded && cookieBanner && cookieAccept && cookieDecline) {
     const stored = readConsent();
 
     // Baner jest fixed, więc wisi NAD treścią. Publikujemy jego zmierzoną
@@ -92,7 +110,7 @@
     };
 
     if (stored === "granted") {
-      loadPixel();
+      grantConsent();
     } else if (stored !== "denied") {
       setTimeout(showBanner, 600);
     }
@@ -104,7 +122,7 @@
       setTimeout(() => cookieBanner.setAttribute("hidden", ""), 400);
     };
 
-    cookieAccept.addEventListener("click", () => { writeConsent("granted"); loadPixel(); closeBanner(); });
+    cookieAccept.addEventListener("click", () => { writeConsent("granted"); grantConsent(); closeBanner(); });
     cookieDecline.addEventListener("click", () => { writeConsent("denied"); closeBanner(); });
 
     // Escape zamyka baner jak odmowa — nigdy jak zgoda.
@@ -117,6 +135,20 @@
   // Żadnego sprzęgnięcia obu plików poza nazwą zdarzenia.
   document.addEventListener("gruntwart:lead", () => {
     if (window.fbq) window.fbq("track", "Lead");
+  });
+
+  // ----- Google Ads: klik w numer telefonu = zdarzenie phone_click -----
+  // transport_type "beacon", żeby request przeżył ewentualną nawigację
+  // (na mobile klik w tel: otwiera dialer i może przerwać zwykły XHR).
+  document.querySelectorAll('a[href^="tel:"]').forEach((link) => {
+    link.addEventListener("click", () => {
+      if (typeof window.gtag === "function") {
+        window.gtag("event", "phone_click", {
+          transport_type: "beacon",
+          city: (document.body && document.body.dataset.city) || "ogolna"
+        });
+      }
+    });
   });
 
   // ----- Fade-in on scroll -----

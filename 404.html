@@ -3,6 +3,33 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+
+  <!-- Google tag (gtag.js) + Consent Mode v2 -->
+  <!-- PODMIEŃ 'G-XXXXXXXXXX' NA WŁASNY ID GA4. -->
+  <script>
+    (function () {
+      var GA_ID = 'G-XXXXXXXXXX'; // PODMIEŃ NA WŁASNY ID GA4
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function () { dataLayer.push(arguments); };
+      gtag('consent', 'default', {
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied',
+        analytics_storage: 'denied',
+        wait_for_update: 500
+      });
+      gtag('js', new Date());
+      gtag('config', GA_ID);
+      window.__gaActive = GA_ID.indexOf('X') === -1;
+      if (window.__gaActive) {
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+        document.head.appendChild(s);
+      }
+    })();
+  </script>
+
   <title>Strona nie znaleziona — GruntWart</title>
   <meta name="description" content="Strona, której szukasz, nie istnieje lub została przeniesiona." />
   <meta name="robots" content="noindex" />
@@ -40,7 +67,7 @@
           </svg>
           <span class="site-header__phone-number">500 441 500</span>
         </a>
-        <a href="/#zglos" class="btn btn--primary site-header__cta">ZGŁOŚ DZIAŁKĘ</a>
+        <a href="/#zglos" class="btn btn--primary site-header__cta">BEZPŁATNA WYCENA</a>
       </div>
     </div>
   </header>
@@ -73,6 +100,8 @@
       <a href="tel:+48500441500" class="site-footer__phone">500 441 500</a>
 
       <nav class="site-footer__links" aria-label="Stopka">
+        <a href="/bialystok.html" class="site-footer__link">Skup działek Białystok</a>
+        <a href="/lodz.html" class="site-footer__link">Skup działek Łódź</a>
         <a href="/polityka-prywatnosci.html" class="site-footer__link">Polityka prywatności</a>
       </nav>
     </div>

@@ -1487,3 +1487,139 @@ section {
 .legal__back a {
   color: var(--color-accent);
 }
+
+/* ===== Wybór regionu — dwa kafle na stronie-hubie (index) ===== */
+.region-section {
+  padding-top: clamp(24px, 4vw, 40px);
+}
+
+.region-pick {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(16px, 3vw, 24px);
+}
+
+.region-pick__tile {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: clamp(20px, 3vw, 28px);
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  color: var(--color-ink);
+  text-decoration: none;
+  transition: border-color .15s ease, transform .15s ease;
+}
+
+.region-pick__tile:hover {
+  border-color: var(--color-accent);
+  transform: translateY(-2px);
+}
+
+.region-pick__city {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-accent);
+}
+
+.region-pick__arrow {
+  flex-shrink: 0;
+}
+
+.region-pick__area {
+  margin: 0;
+  font-size: 0.9375rem;
+  color: var(--color-ink-soft);
+}
+
+@media (max-width: 640px) {
+  .region-pick {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ===== Formularz — dodatkowe podpisy (nagłówek + podpowiedź pola) ===== */
+.lead-form__sub {
+  margin: -4px 0 2px;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--color-ink-soft);
+}
+
+.form__hint {
+  margin: 6px 0 0;
+  font-size: 0.8125rem;
+  color: var(--color-ink-soft);
+}
+
+/* ===== Sekcja "Z kim rozmawiasz" — osoba kontaktowa ===== */
+.why__brand {
+  margin: 0 0 clamp(20px, 3vw, 28px);
+}
+
+.person {
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(20px, 3vw, 32px);
+  max-width: 760px;
+}
+
+.person__photo {
+  flex-shrink: 0;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.person__body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.person__name {
+  margin: 0;
+  font-size: 1.1875rem;
+  font-weight: 600;
+}
+
+.person__role {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--color-ink-soft);
+}
+
+.person__quote {
+  margin: 10px 0 0;
+  color: var(--color-ink);
+  line-height: 1.6;
+}
+
+.why__area {
+  margin: clamp(24px, 3vw, 32px) 0 0;
+  font-size: 0.9375rem;
+  color: var(--color-ink-soft);
+}
+
+.why__area strong {
+  color: var(--color-ink);
+  font-weight: 600;
+}
+
+@media (max-width: 560px) {
+  .person {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

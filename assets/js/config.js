@@ -19,12 +19,14 @@ window.SITE_CONFIG = {
   phone: "500 441 500",
   phoneIntl: "+48500441500",      // dla tel: linka
 
-  // Web3Forms — access key w formacie UUID, np. "a1b2c3d4-1234-5678-9abc-def012345678".
-  // Zarejestruj się na https://web3forms.com, skopiuj klucz i wklej go poniżej.
-  // DOPÓKI TO POLE JEST PUSTE (albo nie jest poprawnym UUID-em), form.js NIE wysyła
-  // POST-a do Web3Forms — zamiast tego od razu pokazuje ścieżkę ratunkową (telefon),
+  // Web3Forms — access key (UUID) wstrzykiwany do pola access_key formularza.
+  // >>> WSTAW_KLUCZ_WEB3FORMS <<< — zarejestruj się na https://web3forms.com,
+  // skopiuj klucz w formacie UUID (np. "a1b2c3d4-1234-5678-9abc-def012345678")
+  // i wklej go poniżej w miejsce placeholdera.
+  // DOPÓKI TO NIE JEST POPRAWNY UUID (placeholder, pusty string, cokolwiek innego),
+  // form.js NIE wysyła POST-a do Web3Forms — pokazuje ścieżkę ratunkową (telefon),
   // żeby nie tracić kontaktu na błędzie 400. Patrz assets/js/form.js.
-  web3formsKey: "",
+  web3formsKey: "WSTAW_KLUCZ_WEB3FORMS",
 
   // Meta Pixel — JEDYNY przełącznik trybu zgody na całej stronie.
   // DOPÓKI TO POLE JEST PUSTE: strona nie ładuje niczego z zewnątrz, nie ustawia

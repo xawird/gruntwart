@@ -3,6 +3,33 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+
+  <!-- Google tag (gtag.js) + Consent Mode v2 -->
+  <!-- PODMIEŃ 'G-XXXXXXXXXX' NA WŁASNY ID GA4. -->
+  <script>
+    (function () {
+      var GA_ID = 'G-XXXXXXXXXX'; // PODMIEŃ NA WŁASNY ID GA4
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function () { dataLayer.push(arguments); };
+      gtag('consent', 'default', {
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied',
+        analytics_storage: 'denied',
+        wait_for_update: 500
+      });
+      gtag('js', new Date());
+      gtag('config', GA_ID);
+      window.__gaActive = GA_ID.indexOf('X') === -1;
+      if (window.__gaActive) {
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+        document.head.appendChild(s);
+      }
+    })();
+  </script>
+
   <title>Polityka prywatności — GruntWart</title>
   <meta name="description" content="Polityka prywatności serwisu GruntWart — bezpośredni zakup gruntów." />
   <meta name="robots" content="noindex" />
@@ -38,7 +65,7 @@
           </svg>
           <span class="site-header__phone-number">500 441 500</span>
         </a>
-        <a href="/#zglos" class="btn btn--primary site-header__cta">ZGŁOŚ DZIAŁKĘ</a>
+        <a href="/#zglos" class="btn btn--primary site-header__cta">BEZPŁATNA WYCENA</a>
       </div>
     </div>
   </header>
@@ -48,16 +75,17 @@
       <div class="container legal__container">
         <p class="eyebrow">Dokument prawny</p>
         <h1 class="legal__title">Polityka prywatności</h1>
-        <p class="legal__updated">Ostatnia aktualizacja: 20 lipca 2026</p>
+        <p class="legal__updated">Ostatnia aktualizacja: 30 lipca 2026</p>
 
         <div class="legal__section">
           <h2>1. Administrator danych</h2>
           <p>
-            Administratorem Twoich danych osobowych jest <strong>GruntWart</strong> (dalej: "Administrator", "my").
+            Administratorem Twoich danych osobowych jest <strong>UZUPEŁNIJ_DANE_FIRMY</strong> (pełna nazwa, adres, NIP) — dalej: "Administrator", "my".
           </p>
           <p>Kontakt z Administratorem w sprawach dotyczących danych osobowych:</p>
           <ul>
             <li>Telefon: <a href="tel:+48500441500">500 441 500</a></li>
+            <li>E-mail: UZUPEŁNIJ_EMAIL</li>
           </ul>
         </div>
 
@@ -79,7 +107,7 @@
             Twoje dane przetwarzamy <strong>wyłącznie</strong> w celu kontaktu z Tobą w sprawie przedstawienia bezpłatnej wyceny i ewentualnego zawarcia umowy zakupu gruntu.
           </p>
           <p>
-            Podstawa prawna: art. 6 ust. 1 lit. b RODO (przetwarzanie niezbędne do podjęcia działań na żądanie osoby, której dane dotyczą, przed zawarciem umowy).
+            Podstawa prawna: art. 6 ust. 1 lit. a RODO (Twoja zgoda wyrażona przez zaznaczenie zgody w formularzu) oraz art. 6 ust. 1 lit. f RODO (nasz prawnie uzasadniony interes — kontakt i odpowiedź na zgłoszenie w sprawie zakupu gruntu).
           </p>
         </div>
 
@@ -98,6 +126,8 @@
           <ul>
             <li>Dostawca usługi formularza (Web3Forms / SureSend Inc.) — w celu technicznej obsługi przesłania formularza.</li>
             <li>Notariusz, doradcy prawni — wyłącznie w przypadku zawierania umowy sprzedaży i wyłącznie w niezbędnym zakresie.</li>
+            <li>Google (Google Ireland Ltd) — narzędzia pomiaru reklam (Google Analytics 4 i Google Ads), uruchamiane wyłącznie po wyrażeniu przez Ciebie zgody. Dotyczy danych o korzystaniu ze strony, nie danych z formularza.</li>
+            <li>Meta (Meta Platforms Ireland Ltd) — pomiar skuteczności reklam (Meta Pixel), wyłącznie po wyrażeniu zgody. Dotyczy danych o korzystaniu ze strony, nie danych z formularza.</li>
           </ul>
         </div>
 
@@ -119,12 +149,18 @@
         </div>
 
         <div class="legal__section">
-          <h2>7. Pliki cookies</h2>
+          <h2>7. Pliki cookies i pomiar reklam</h2>
           <p>
-            Strona nie ustawia własnych plików cookies. W pamięci przeglądarki (localStorage) zapisujemy wyłącznie Twoją decyzję dotyczącą zgody — to zapis niezbędny do działania strony i nie wymaga zgody.
+            Twoją decyzję dotyczącą zgody zapisujemy w pamięci przeglądarki (localStorage). To zapis niezbędny do działania strony i nie wymaga zgody.
           </p>
           <p>
-            W przyszłości, jeśli wprowadzimy narzędzia analityczne (np. Google Analytics), poprosimy Cię o osobną zgodę przez baner cookie.
+            Do pomiaru skuteczności reklam korzystamy z narzędzi Google (Google Analytics 4 oraz Google Ads) i Meta (Meta Pixel). Narzędzia te mogą zapisywać pliki cookies i przetwarzać dane o korzystaniu ze strony — np. odsłony, kliknięcia i zdarzenia konwersji (wysłanie formularza, kliknięcie w numer telefonu).
+          </p>
+          <p>
+            Domyślnie zgoda jest wyłączona (Google Consent Mode v2 w stanie „denied") — żadne z tych narzędzi nie ładuje się ani nie ustawia plików cookies, dopóki nie klikniesz „Akceptuję" w banerze. Kliknięcie „Odrzucam" pozostawia pomiar wyłączony.
+          </p>
+          <p>
+            Podstawa prawna dla cookies pomiarowych: art. 6 ust. 1 lit. a RODO (Twoja zgoda). Zgodę możesz wycofać w każdej chwili, czyszcząc dane witryny (localStorage i pliki cookies) w ustawieniach przeglądarki — przy kolejnej wizycie ponownie zapytamy o zgodę.
           </p>
         </div>
 
@@ -152,6 +188,8 @@
       <a href="tel:+48500441500" class="site-footer__phone">500 441 500</a>
 
       <nav class="site-footer__links" aria-label="Stopka">
+        <a href="/bialystok.html" class="site-footer__link">Skup działek Białystok</a>
+        <a href="/lodz.html" class="site-footer__link">Skup działek Łódź</a>
         <span class="site-footer__link" aria-current="page">Polityka prywatności</span>
       </nav>
     </div>
