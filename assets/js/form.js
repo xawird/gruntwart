@@ -1,8 +1,8 @@
 /**
  * form.js — walidacja i wysyłka formularza „Zgłoś działkę" (hero) do Web3Forms.
  *
- * Pola: plot — "Numer działki lub lokalizacja" (wymagane), phone (wymagane,
- *   PHONE_REGEX), consent (wymagane).
+ * Pola: address — "Adres działki" (wymagane), plot — "Numer działki" (opcjonalne),
+ *   phone (wymagane, PHONE_REGEX), consent (wymagane).
  * Format danych: multipart/form-data.
  * API: https://api.web3forms.com/submit
  * Po sukcesie: trackLeadAndRedirect() — generate_lead (GA4/Ads) + Meta Lead,
@@ -185,7 +185,7 @@
   // ----- Walidacja całego formularza -----
   function validateForm() {
     let ok = true;
-    const inputs = form.querySelectorAll("input[name='plot'], input[name='phone']");
+    const inputs = form.querySelectorAll("input[name='address'], input[name='plot'], input[name='phone']");
     inputs.forEach((input) => {
       if (!validateField(input)) ok = false;
     });

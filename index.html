@@ -33,16 +33,16 @@
   </script>
 
   <!-- Primary Meta Tags -->
-  <title>Skup działek za gotówkę – Białystok i Łódź | GruntWart</title>
-  <meta name="description" content="Skup działek za gotówkę w Białymstoku, Łodzi i najbliższych okolicach. Bez prowizji, płatność u notariusza, bezpłatna wstępna wycena do 24 godzin. Zadzwoń 500 441 500." />
+  <title>Skup działek za gotówkę – bezpośredni zakup gruntów | GruntWart</title>
+  <meta name="description" content="Skup działek za gotówkę — bezpośredni zakup gruntów od właścicieli. Bez prowizji, płatność u notariusza, bezpłatna wstępna wycena do 24 godzin. Zadzwoń 500 441 500." />
   <meta name="geo.region" content="PL" />
   <meta name="theme-color" content="#1E4D3B" />
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://gruntwart.pl/" />
-  <meta property="og:title" content="Skup działek za gotówkę – Białystok i Łódź | GruntWart" />
-  <meta property="og:description" content="Skup działek za gotówkę w Białymstoku, Łodzi i najbliższych okolicach. Bez prowizji, płatność u notariusza, bezpłatna wstępna wycena do 24 godzin." />
+  <meta property="og:title" content="Skup działek za gotówkę – bezpośredni zakup gruntów | GruntWart" />
+  <meta property="og:description" content="Skup działek za gotówkę — bezpośredni zakup gruntów od właścicieli. Bez prowizji, płatność u notariusza, bezpłatna wstępna wycena do 24 godzin." />
   <meta property="og:image" content="https://gruntwart.pl/assets/img/og-image.jpg" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
@@ -50,8 +50,8 @@
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Skup działek za gotówkę – Białystok i Łódź | GruntWart" />
-  <meta name="twitter:description" content="Skup działek za gotówkę w Białymstoku, Łodzi i najbliższych okolicach. Bez prowizji, płatność u notariusza, bezpłatna wstępna wycena do 24 godzin." />
+  <meta name="twitter:title" content="Skup działek za gotówkę – bezpośredni zakup gruntów | GruntWart" />
+  <meta name="twitter:description" content="Skup działek za gotówkę — bezpośredni zakup gruntów od właścicieli. Bez prowizji, płatność u notariusza, bezpłatna wstępna wycena do 24 godzin." />
   <meta name="twitter:image" content="https://gruntwart.pl/assets/img/og-image.jpg" />
 
   <!-- Canonical -->
@@ -98,7 +98,6 @@
       <nav class="site-header__nav" aria-label="Nawigacja główna">
         <a href="#co-kupujemy">Co kupujemy</a>
         <a href="#jak-dzialamy">Jak działamy</a>
-        <a href="#o-nas">Z kim rozmawiasz</a>
         <a href="#kontakt">Kontakt</a>
       </nav>
 
@@ -139,14 +138,15 @@
 
       <div class="container hero__inner">
         <div class="hero__content">
-          <p class="hero__eyebrow">BIAŁYSTOK · ŁÓDŹ · NAJBLIŻSZE OKOLICE</p>
-          <h1 class="hero__title">Kupujemy działki w Białymstoku, Łodzi i najbliższych okolicach.</h1>
-          <p class="hero__lead">Za gotówkę, z bezpłatną wstępną wyceną do 24 godzin. Płatność u notariusza, bez prowizji i bez pośredników.</p>
+          <p class="hero__eyebrow">SKUP DZIAŁEK ZA GOTÓWKĘ</p>
+          <h1 class="hero__title">O dobrą cenę nie trzeba walczyć.</h1>
+          <p class="claim">Kupujemy działki budowlane i inwestycyjne.</p>
+          <p class="hero__lead">Sprzedaż działki przez ogłoszenia potrafi ciągnąć się miesiącami. My kupujemy działkę bezpośrednio od Ciebie — nie pośredniczymy i nie pobieramy prowizji. Wstępna wycena w 24 godziny, umowa u notariusza i płatność nawet w kilka dni od zgłoszenia. Dzięki temu pieniądze możesz od razu przeznaczyć na to, co dla Ciebie ważne.</p>
         </div>
 
         <div class="lead-form" id="zglos">
           <h2 class="lead-form__title">Sprawdź, ile możemy zapłacić</h2>
-          <p class="lead-form__sub">Podaj numer działki lub jej przybliżoną lokalizację. To wystarczy, żeby rozpocząć bezpłatną wycenę.</p>
+          <p class="lead-form__sub">Podaj adres lub przybliżoną lokalizację działki. To wystarczy, żeby rozpocząć bezpłatną wycenę.</p>
 
           <form id="leadForm" action="https://api.web3forms.com/submit" method="POST" enctype="multipart/form-data">
             <input type="hidden" id="formAccessKey" name="access_key" value="" />
@@ -156,9 +156,15 @@
             <input type="checkbox" name="botcheck" id="botcheck" class="lead-form__honeypot" tabindex="-1" autocomplete="off" aria-hidden="true" />
 
             <div class="form__field">
-              <label for="plot">Numer działki lub lokalizacja*</label>
-              <input type="text" id="plot" name="plot" required autocomplete="off" placeholder="np. działka 125/4, Białystok lub Łódź" aria-describedby="hint-plot error-plot" />
-              <p class="form__hint" id="hint-plot">Nie znasz numeru? Wpisz miejscowość lub ulicę.</p>
+              <label for="address">Adres działki*</label>
+              <input type="text" id="address" name="address" required autocomplete="off" placeholder="np. ul. Polna, miejscowość" aria-describedby="hint-address error-address" />
+              <p class="form__hint" id="hint-address">Wystarczy przybliżona lokalizacja — miejscowość lub ulica.</p>
+              <p class="form__error" id="error-address" data-error-for="address" role="alert"></p>
+            </div>
+
+            <div class="form__field">
+              <label for="plot">Numer działki (opcjonalnie)</label>
+              <input type="text" id="plot" name="plot" autocomplete="off" placeholder="np. 125/4" aria-describedby="error-plot" />
               <p class="form__error" id="error-plot" data-error-for="plot" role="alert"></p>
             </div>
 
@@ -183,33 +189,6 @@
           </form>
 
           <p class="lead-form__alt">Wolisz porozmawiać? <a href="tel:+48500441500">Zadzwoń: 500 441 500</a></p>
-        </div>
-      </div>
-    </section>
-
-    <section class="region-section" aria-label="Wybierz region">
-      <div class="container">
-        <div class="region-pick">
-          <a href="/bialystok.html" class="region-pick__tile">
-            <span class="region-pick__city">
-              Mam działkę w Białymstoku lub okolicy
-              <svg class="region-pick__arrow" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <line x1="5" y1="12" x2="19" y2="12"/>
-                <polyline points="12 5 19 12 12 19"/>
-              </svg>
-            </span>
-            <p class="region-pick__area">Białystok, Grabówka, Zaścianki, Kleosin, Wasilków i okolice.</p>
-          </a>
-          <a href="/lodz.html" class="region-pick__tile">
-            <span class="region-pick__city">
-              Mam działkę w Łodzi lub okolicy
-              <svg class="region-pick__arrow" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <line x1="5" y1="12" x2="19" y2="12"/>
-                <polyline points="12 5 19 12 12 19"/>
-              </svg>
-            </span>
-            <p class="region-pick__area">Łódź, Zgierz, Pabianice, Rzgów, Andrespol i okolice.</p>
-          </a>
         </div>
       </div>
     </section>
@@ -248,7 +227,7 @@
               </svg>
             </div>
             <h3 class="buy__title">Działki budowlane</h3>
-            <p class="buy__text">Pod zabudowę mieszkaniową, usługową i komercyjną — w Białymstoku, Łodzi i najbliższych okolicach.</p>
+            <p class="buy__text">Pod zabudowę mieszkaniową, usługową i komercyjną — w mieście i najbliższych okolicach.</p>
           </article>
 
           <article class="buy__card">
@@ -315,31 +294,6 @@
       </div>
     </section>
 
-    <section id="o-nas" class="why">
-      <div class="container">
-        <h2>Z kim rozmawiasz</h2>
-
-        <p class="claim why__brand">O dobrą cenę nie trzeba walczyć.</p>
-
-        <div class="person">
-          <!-- Placeholder na zdjęcie osoby kontaktowej — podmień na <img> po otrzymaniu fotografii -->
-          <div class="person__photo" aria-hidden="true">
-            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-              <circle cx="12" cy="7" r="4"/>
-            </svg>
-          </div>
-          <div class="person__body">
-            <p class="person__name">UZUPEŁNIJ_IMIĘ</p>
-            <p class="person__role">Osoba odpowiedzialna za zakup gruntów w GruntWart</p>
-            <p class="person__quote">Po zgłoszeniu oddzwaniam osobiście. Najpierw sprawdzam lokalizację, przeznaczenie, dostęp do drogi i stan prawny. Nie publikujemy ogłoszenia i nie przekazujemy kontaktu pośrednikom.</p>
-          </div>
-        </div>
-
-        <p class="why__area"><strong>Obszar działania:</strong> Białystok i najbliższe okolice (Grabówka, Zaścianki, Kleosin, Wasilków) oraz Łódź i najbliższe okolice (Zgierz, Pabianice, Rzgów, Andrespol).</p>
-      </div>
-    </section>
-
     <section id="faq" class="faq">
       <div class="container">
         <h2>Częste pytania</h2>
@@ -389,9 +343,9 @@
           </details>
 
           <details class="faq__item">
-            <summary class="faq__q">W jakich miejscowościach kupujecie działki?</summary>
+            <summary class="faq__q">Gdzie kupujecie działki?</summary>
             <div class="faq__a">
-              <p>W Białymstoku i Łodzi oraz ich najbliższych okolicach — np. Grabówka, Zaścianki, Kleosin, Wasilków pod Białymstokiem oraz Zgierz, Pabianice, Rzgów, Andrespol pod Łodzią. Jeśli nie masz pewności, czy Twoja lokalizacja się kwalifikuje, zgłoś działkę — sprawdzimy to za Ciebie.</p>
+              <p>Działamy w wybranych miastach i ich najbliższych okolicach. Podaj lokalizację działki w formularzu — sprawdzimy, czy się kwalifikuje, i oddzwonimy w ciągu 24 godzin.</p>
             </div>
           </details>
 
@@ -422,7 +376,7 @@
 
     <section class="cta-final">
       <div class="container">
-        <h2 class="cta-final__claim">Podaj numer działki. Resztę sprawdzimy my.</h2>
+        <h2 class="cta-final__claim">Podaj adres działki. Resztę sprawdzimy my.</h2>
         <p class="cta-final__text">Wstępna analiza jest bezpłatna i do niczego nie zobowiązuje.</p>
         <a href="#zglos" class="cta-final__btn">OTRZYMAJ BEZPŁATNĄ WYCENĘ</a>
         <p class="cta-final__alt">albo zadzwoń teraz: <a href="tel:+48500441500">500 441 500</a></p>
@@ -434,17 +388,14 @@
     <div class="container">
       <div class="site-footer__brand">
         <div class="site-footer__name">GruntWart</div>
-        <p class="site-footer__tag">Bezpośredni zakup działek. Białystok, Łódź i najbliższe okolice.</p>
+        <p class="site-footer__tag">Bezpośredni zakup działek za gotówkę.</p>
         <a href="tel:+48500441500" class="site-footer__phone">500 441 500</a>
       </div>
 
       <nav class="site-footer__links" aria-label="Nawigacja w stopce">
         <a href="#co-kupujemy" class="site-footer__link">Co kupujemy</a>
         <a href="#jak-dzialamy" class="site-footer__link">Jak działamy</a>
-        <a href="#o-nas" class="site-footer__link">Z kim rozmawiasz</a>
         <a href="#faq" class="site-footer__link">Częste pytania</a>
-        <a href="/bialystok.html" class="site-footer__link">Skup działek Białystok</a>
-        <a href="/lodz.html" class="site-footer__link">Skup działek Łódź</a>
         <a href="/polityka-prywatnosci.html" class="site-footer__link">Polityka prywatności</a>
       </nav>
 
@@ -517,10 +468,10 @@
       },
       {
         "@type": "Question",
-        "name": "W jakich miejscowościach kupujecie działki?",
+        "name": "Gdzie kupujecie działki?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "W Białymstoku i Łodzi oraz ich najbliższych okolicach — np. Grabówka, Zaścianki, Kleosin, Wasilków pod Białymstokiem oraz Zgierz, Pabianice, Rzgów, Andrespol pod Łodzią. Jeśli nie masz pewności, czy Twoja lokalizacja się kwalifikuje, zgłoś działkę — sprawdzimy to za Ciebie."
+          "text": "Działamy w wybranych miastach i ich najbliższych okolicach. Podaj lokalizację działki w formularzu — sprawdzimy, czy się kwalifikuje, i oddzwonimy w ciągu 24 godzin."
         }
       },
       {
@@ -558,19 +509,7 @@
     "name": "GruntWart",
     "url": "https://gruntwart.pl/",
     "image": "https://gruntwart.pl/assets/img/og-image.jpg",
-    "telephone": "+48500441500",
-    "areaServed": [
-      "Białystok",
-      "Grabówka",
-      "Zaścianki",
-      "Kleosin",
-      "Wasilków",
-      "Łódź",
-      "Zgierz",
-      "Pabianice",
-      "Rzgów",
-      "Andrespol"
-    ]
+    "telephone": "+48500441500"
   }
   </script>
 </body>
