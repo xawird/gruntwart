@@ -11,6 +11,7 @@
   <script>
     (function () {
       var GA_ID = 'G-EBJ1LVMJVN'; // usługa "GruntWart – strona"
+      var AW_ID = 'AW-18361021775'; // Google Ads — drugi cel, TEN SAM loader
       window.dataLayer = window.dataLayer || [];
       window.gtag = function () { dataLayer.push(arguments); };
       gtag('consent', 'default', {
@@ -22,6 +23,7 @@
       });
       gtag('js', new Date());
       gtag('config', GA_ID);
+      gtag('config', AW_ID);
       window.__gaActive = GA_ID.indexOf('X') === -1;
       if (window.__gaActive) {
         var s = document.createElement('script');

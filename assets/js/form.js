@@ -5,8 +5,12 @@
  *   phone (wymagane, PHONE_REGEX), consent (wymagane).
  * Format danych: multipart/form-data.
  * API: https://api.web3forms.com/submit
- * Po sukcesie: trackLeadAndRedirect() — generate_lead (GA4/Ads) + Meta Lead,
- *   potem redirect na /dziekujemy.html (JS, po odpowiedzi fetch).
+ * Po sukcesie (WYŁĄCZNIE HTTP 200): trackLeadAndRedirect(leadId) — GA4
+ *   generate_lead (send_to G-EBJ1LVMJVN) + konwersja Google Ads
+ *   (AW-18361021775/EuICCMyLqdkcEM_qm7NE, transaction_id = lead_id) + Meta Lead,
+ *   potem redirect na /dziekujemy.html (po obu callbackach lub 2200 ms).
+ *   lead_id i czas_zgloszenia (ISO 8601 ze strefą) idą też do maila Web3Forms;
+ *   z URL przechwytujemy gclid/gbraid/wbraid + utm_*.
  *   Formularz ma też natywny action= + hidden "redirect" (Web3Forms) — natywna
  *   walidacja (required/typy) nadal chroni użytkowników bez JS, a access_key jest
  *   wpisany na stałe w HTML, więc POST bez JS też dochodzi (Web3Forms sam
@@ -24,7 +28,7 @@
   // z której reklamy/frazy przyszło zgłoszenie. Nie blokuje formularza.
   try {
     const params = new URLSearchParams(window.location.search);
-    ["gclid", "utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content"].forEach((key) => {
+    ["gclid", "gbraid", "wbraid", "utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content"].forEach((key) => {
       const val = params.get(key);
       if (!val) return;
       const input = document.createElement("input");
@@ -105,32 +109,82 @@
     return (el && el.value) || (document.body && document.body.dataset.city) || "ogolna";
   }
 
-  // Pomiar konwersji + przekierowanie na podziękowanie. generate_lead (GA4/Ads)
-  // wysyłamy z event_callback, żeby request zdążył wyjść PRZED nawigacją; fallback
-  // (setTimeout) gwarantuje redirect nawet gdy callback nie wróci (np. brak GA).
-  function trackLeadAndRedirect() {
+  // Identyfikator leada: generowany PRZED pierwszą próbą wysyłki i trzymany na
+  // window — retry po błędzie sieci używa TEGO SAMEGO id, więc deduplikacja po
+  // transaction_id w Google Ads nie policzy drugiej konwersji. Max 64 znaki,
+  // zero danych osobowych (losowy UUID).
+  function makeLeadId() {
+    try {
+      if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+      var buf = new Uint8Array(16);
+      crypto.getRandomValues(buf);
+      return Array.prototype.map.call(buf, function (b) { return ("0" + b.toString(16)).slice(-2); }).join("");
+    } catch (e) {
+      return "lead-" + Date.now() + "-" + Math.random().toString(36).slice(2, 10);
+    }
+  }
+
+  // Znacznik czasu ISO 8601 z przesunięciem strefy (np. 2026-07-30T19:05:12+02:00)
+  // — toISOString() zwraca UTC i gubi strefę, dlatego składamy ręcznie.
+  function isoWithOffset() {
+    var d = new Date();
+    var off = -d.getTimezoneOffset();
+    var sign = off >= 0 ? "+" : "-";
+    var pad = function (n) { return String(Math.abs(n)).padStart(2, "0"); };
+    return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()) +
+      "T" + pad(d.getHours()) + ":" + pad(d.getMinutes()) + ":" + pad(d.getSeconds()) +
+      sign + pad(Math.floor(Math.abs(off) / 60)) + ":" + pad(Math.abs(off) % 60);
+  }
+
+  // Pomiar konwersji + przekierowanie. Wywoływane WYŁĄCZNIE po HTTP 200
+  // z api.web3forms.com (błąd API = zero konwersji). Dwa trafienia na wspólnym
+  // gtag: GA4 generate_lead i Google Ads conversion; redirect po powrocie OBU
+  // callbacków albo po twardym beziecznika 2200 ms. Konwersja nigdy nie odpala
+  // się z odsłony /dziekujemy.html — ten kod żyje tylko na stronach z formularzem.
+  function trackLeadAndRedirect(leadId) {
     const city = getCity();
     try {
       window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({ event: "lead_submit", form: "leadForm", city: city });
-      document.dispatchEvent(new CustomEvent("gruntwart:lead", { detail: { form: "leadForm", city: city } }));
+      window.dataLayer.push({ event: "lead_submit", form: "leadForm", city: city, lead_id: leadId });
+      document.dispatchEvent(new CustomEvent("gruntwart:lead", { detail: { form: "leadForm", city: city, leadId: leadId } }));
     } catch (e) {
       /* pomiar nigdy nie może zablokować konwersji */
     }
 
     let redirected = false;
-    const go = function () {
+    function redirectOnce() {
       if (redirected) return;
       redirected = true;
-      window.location.href = "/dziekujemy.html";
-    };
-
-    if (typeof window.gtag === "function") {
-      window.gtag("event", "generate_lead", { city: city, event_callback: go });
-      setTimeout(go, 1000); // bezpiecznik, gdyby callback nie wrócił
-    } else {
-      go();
+      window.location.assign("/dziekujemy.html");
     }
+
+    if (typeof window.gtag !== "function") {
+      redirectOnce();
+      return;
+    }
+
+    let pendingTags = 2;
+    function tagFinished() {
+      pendingTags -= 1;
+      if (pendingTags <= 0) redirectOnce();
+    }
+
+    window.gtag("event", "generate_lead", {
+      send_to: "G-EBJ1LVMJVN",
+      lead_id: leadId,
+      city: city,
+      event_callback: tagFinished,
+      event_timeout: 1800
+    });
+
+    window.gtag("event", "conversion", {
+      send_to: "AW-18361021775/EuICCMyLqdkcEM_qm7NE",
+      transaction_id: leadId,
+      event_callback: tagFinished,
+      event_timeout: 1800
+    });
+
+    window.setTimeout(redirectOnce, 2200);
   }
 
   // ----- Walidacja per-pole -----
@@ -241,19 +295,27 @@
     submitBtn.classList.add("is-loading");
     submitBtn.disabled = true;
 
+    // lead_id powstaje przed PIERWSZĄ próbą i jest trzymany na window: retry po
+    // błędzie sieci wysyła TEN SAM identyfikator (deduplikacja konwersji po
+    // transaction_id). Max 64 znaki, bez danych osobowych.
+    const leadId = (window.__leadId = window.__leadId || makeLeadId()).slice(0, 64);
+
     try {
       const formData = new FormData(form);
+      formData.append("lead_id", leadId);
+      formData.append("czas_zgloszenia", isoWithOffset());
       const response = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
         body: formData,
       });
       const result = await response.json();
 
-      // Przekierowanie TYLKO po realnym sukcesie: HTTP 200 ORAZ success:true.
-      // Web3Forms przy złym kluczu/limicie zwraca 4xx z success:false — wtedy
-      // zostajemy na stronie i pokazujemy ścieżkę telefoniczną.
-      if (response.ok && result.success) {
-        trackLeadAndRedirect();
+      // Przekierowanie i KONWERSJE tylko po realnym sukcesie: HTTP 200 ORAZ
+      // success:true. Web3Forms przy złym kluczu/limicie zwraca 4xx z
+      // success:false — wtedy zostajemy na stronie, zero konwersji,
+      // ścieżka telefoniczna.
+      if (response.status === 200 && result.success) {
+        trackLeadAndRedirect(leadId);
       } else {
         throw new Error(result.message || "Submission failed");
       }
