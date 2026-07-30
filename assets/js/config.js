@@ -26,7 +26,7 @@ window.SITE_CONFIG = {
   // DOPÓKI TO NIE JEST POPRAWNY UUID (placeholder, pusty string, cokolwiek innego),
   // form.js NIE wysyła POST-a do Web3Forms — pokazuje ścieżkę ratunkową (telefon),
   // żeby nie tracić kontaktu na błędzie 400. Patrz assets/js/form.js.
-  web3formsKey: "WSTAW_KLUCZ_WEB3FORMS",
+  web3formsKey: "7e205f93-6c29-493c-87af-7fb2ec28cd0f",
 
   // Meta Pixel — JEDYNY przełącznik trybu zgody na całej stronie.
   // DOPÓKI TO POLE JEST PUSTE: strona nie ładuje niczego z zewnątrz, nie ustawia
