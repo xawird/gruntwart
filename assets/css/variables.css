@@ -1,0 +1,23 @@
+:root {
+  --color-bg: #FDFCFA;          /* złamana biel */
+  --color-surface: #FFFFFF;
+  --color-ink: #1A2620;          /* prawie czarny z nutą zieleni */
+  --color-ink-soft: #5A6B62;     /* tekst pomocniczy */
+  --color-accent: #1E4D3B;       /* głęboka ciemna zieleń */
+  --color-accent-hover: #163A2C;
+  --color-accent-soft: #EAF1ED;  /* tło pastylek/ikon */
+  --color-line: #E5E2DC;
+  --color-error: #B3261E;
+  --color-gold: #B08D3E;         /* akcent starego złota — rzadko: logo, drobne detale */
+  --font-serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --radius: 14px;
+  --shadow-card: 0 1px 2px rgba(26,38,32,.05), 0 8px 24px rgba(26,38,32,.06);
+  --container: 1120px;
+
+  /* Typografia */
+  --fs-h1: clamp(2.4rem, 5.5vw, 4.2rem);
+  --fs-h2: clamp(1.8rem, 3.5vw, 2.6rem);
+  --fs-body: 1.0625rem;
+  --lh-body: 1.6;
+}
