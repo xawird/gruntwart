@@ -69,8 +69,8 @@
 
   // Numer telefonu do komunikatów ratunkowych — format wyświetlany zawsze ze
   // spacjami, spójnie z resztą serwisu; link tel: bierzemy z phoneIntl.
-  const phoneDisplay = config.phone || "500 441 500";
-  const phoneIntl = config.phoneIntl || "+48500441500";
+  const phoneDisplay = config.phone || "728 517 226";
+  const phoneIntl = config.phoneIntl || "+48728517226";
 
   /**
    * Komunikat błędu z KLIKALNYM numerem telefonu (na mobile to jedyna
@@ -145,7 +145,7 @@
 
     if (name === "phone" && value) {
       if (!PHONE_REGEX.test(value)) {
-        setError(field, "Podaj poprawny numer telefonu (np. 500 441 500).");
+        setError(field, "Podaj poprawny numer telefonu (np. 728 517 226).");
         return false;
       }
     }
