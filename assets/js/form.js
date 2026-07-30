@@ -8,9 +8,10 @@
  * Po sukcesie: trackLeadAndRedirect() — generate_lead (GA4/Ads) + Meta Lead,
  *   potem redirect na /dziekujemy.html (JS, po odpowiedzi fetch).
  *   Formularz ma też natywny action= + hidden "redirect" (Web3Forms) — natywna
- *   walidacja (required/typy) nadal chroni użytkowników bez JS, ale sam POST
- *   bez JS zadziała dopiero po wpisaniu na stałe realnego access_key do ukrytego
- *   pola (obecnie puste, bo klucz wstrzykuje JS z config.js).
+ *   walidacja (required/typy) nadal chroni użytkowników bez JS, a access_key jest
+ *   wpisany na stałe w HTML, więc POST bez JS też dochodzi (Web3Forms sam
+ *   przekierowuje na dziekujemy.html po udanej wysyłce). config.js pozostaje
+ *   źródłem prawdy dla JS — przy zmianie klucza podmień OBA miejsca.
  * Po błędzie: komunikat inline z KLIKALNYM tel: + dane zachowane w polach.
  * Brak poprawnego klucza (UUID): POST w ogóle nie leci — od razu ścieżka telefoniczna.
  */
@@ -248,7 +249,10 @@
       });
       const result = await response.json();
 
-      if (result.success) {
+      // Przekierowanie TYLKO po realnym sukcesie: HTTP 200 ORAZ success:true.
+      // Web3Forms przy złym kluczu/limicie zwraca 4xx z success:false — wtedy
+      // zostajemy na stronie i pokazujemy ścieżkę telefoniczną.
+      if (response.ok && result.success) {
         trackLeadAndRedirect();
       } else {
         throw new Error(result.message || "Submission failed");
