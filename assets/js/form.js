@@ -7,7 +7,7 @@
  * API: https://api.web3forms.com/submit
  * Po sukcesie (WYŁĄCZNIE HTTP 200): trackLeadAndRedirect(leadId) — GA4
  *   generate_lead (send_to G-EBJ1LVMJVN) + konwersja Google Ads
- *   (AW-18361021775/EuICCMyLqdkcEM_qm7NE, transaction_id = lead_id) + Meta Lead,
+ *   (AW-18362122846/OCfsCO-u2tkcEN6E37NE, transaction_id = lead_id) + Meta Lead,
  *   potem redirect na /dziekujemy.html (po obu callbackach lub 2200 ms).
  *   lead_id i czas_zgloszenia (ISO 8601 ze strefą) idą też do maila Web3Forms;
  *   z URL przechwytujemy gclid/gbraid/wbraid + utm_*.
@@ -180,7 +180,7 @@
     });
 
     window.gtag("event", "conversion", {
-      send_to: "AW-18361021775/EuICCMyLqdkcEM_qm7NE",
+      send_to: "AW-18362122846/OCfsCO-u2tkcEN6E37NE",
       transaction_id: leadId,
       event_callback: tagFinished,
       event_timeout: 1800
