@@ -1,8 +1,9 @@
 /**
- * form.js — walidacja i wysyłka formularza „Zgłoś działkę" (hero) do Web3Forms.
+ * form.js — walidacja i wysyłka formularza „Zgłoś nieruchomość" (hero) do Web3Forms.
  *
- * Pola: address — "Adres działki" (wymagane), plot — "Numer działki" (opcjonalne),
- *   phone (wymagane, PHONE_REGEX), consent (wymagane).
+ * Pola: address — "Adres" (wymagane), phone (wymagane, PHONE_REGEX),
+ *   rodzaj — "Rodzaj nieruchomości" (select, opcjonalne, bez walidacji),
+ *   consent (wymagane).
  * Format danych: multipart/form-data.
  * API: https://api.web3forms.com/submit
  * Po sukcesie (WYŁĄCZNIE HTTP 200): trackLeadAndRedirect(leadId) — GA4
@@ -104,7 +105,7 @@
    * użytkownika i tylko gdy w config.js jest fbPixelId. Kod formularza nie
    * wymaga żadnych zmian w dniu wdrożenia pixela.
    */
-  // Region z ukrytego pola formularza (bialystok/lodz/ogolna) — trafia do maila
+  // Region z ukrytego pola formularza (bialystok/lodz/warszawa/ogolna) — trafia do maila
   // (Web3Forms) i do zdarzeń pomiarowych, żeby było widać źródło leada.
   function getCity() {
     const el = form.querySelector('input[name="miasto"]');
@@ -242,7 +243,7 @@
   // ----- Walidacja całego formularza -----
   function validateForm() {
     let ok = true;
-    const inputs = form.querySelectorAll("input[name='address'], input[name='plot'], input[name='phone']");
+    const inputs = form.querySelectorAll("input[name='address'], input[name='phone']");
     inputs.forEach((input) => {
       if (!validateField(input)) ok = false;
     });

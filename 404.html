@@ -9,6 +9,7 @@
   <script>
     (function () {
       var GA_ID = 'G-EBJ1LVMJVN'; // usługa "GruntWart – strona"
+      var AW_ID = 'AW-18362122846'; // Google Ads — drugi cel, TEN SAM loader
       window.dataLayer = window.dataLayer || [];
       window.gtag = function () { dataLayer.push(arguments); };
       gtag('consent', 'default', {
@@ -20,6 +21,7 @@
       });
       gtag('js', new Date());
       gtag('config', GA_ID);
+      gtag('config', AW_ID);
       window.__gaActive = GA_ID.indexOf('X') === -1;
       if (window.__gaActive) {
         var s = document.createElement('script');
@@ -58,7 +60,7 @@
           </g>
           <text x="122" y="26" textLength="88" lengthAdjust="spacingAndGlyphs" font-family="var(--font-sans)" font-size="25" font-weight="700" letter-spacing="0.5" fill="var(--color-ink)">WART</text>
         </svg>
-        <span class="site-header__brand-sub">Bezpośredni zakup gruntów</span>
+        <span class="site-header__brand-sub">Bezpośredni zakup nieruchomości</span>
       </a>
       <div class="site-header__actions">
         <a href="tel:+48728517226" class="site-header__phone" aria-label="Zadzwoń: 728 517 226">
@@ -79,7 +81,7 @@
           <p class="eyebrow">Błąd 404</p>
           <h1 class="simple-page__title">Nie znaleźliśmy tej strony.</h1>
           <p class="simple-page__text">
-            Strona, której szukasz, nie istnieje lub została przeniesiona. Wróć na stronę główną i zgłoś działkę.
+            Strona, której szukasz, nie istnieje lub została przeniesiona. Nieruchomość zgłosisz na stronie głównej.
           </p>
           <a href="/" class="btn btn--primary simple-page__cta">Wróć na stronę główną</a>
           <p class="simple-page__back">
@@ -100,9 +102,9 @@
       <a href="tel:+48728517226" class="site-footer__phone">728 517 226</a>
 
       <nav class="site-footer__links" aria-label="Stopka">
-        <a href="/bialystok.html" class="site-footer__link">Skup działek Białystok</a>
-        <a href="/lodz.html" class="site-footer__link">Skup działek Łódź</a>
-        <a href="/warszawa.html" class="site-footer__link">Skup działek Warszawa</a>
+        <a href="/nieruchomosci-warszawa.html" class="site-footer__link">Skup nieruchomości Warszawa</a>
+        <a href="/nieruchomosci-bialystok.html" class="site-footer__link">Skup nieruchomości Białystok</a>
+        <a href="/nieruchomosci-lodz.html" class="site-footer__link">Skup nieruchomości Łódź</a>
         <a href="/polityka-prywatnosci.html" class="site-footer__link">Polityka prywatności</a>
       </nav>
     </div>
@@ -115,7 +117,7 @@
   <div class="cookie-banner" id="cookieBanner" role="region" aria-label="Zgoda na pliki cookies" hidden>
     <div class="container cookie-banner__inner">
       <p class="cookie-banner__text">
-        Dbamy o Twoją prywatność. Używamy plików cookies, aby mierzyć skuteczność naszych reklam i ulepszać stronę. Więcej w <a href="/polityka-prywatnosci.html">polityce prywatności</a>.
+        Dbamy o Twoją prywatność. Po Twojej zgodzie używamy plików cookies i podobnych identyfikatorów, żeby mierzyć skuteczność naszych reklam — dane o korzystaniu ze strony trafiają wtedy do Google (Google Ireland Ltd), które może ich użyć do reklam spersonalizowanych i niespersonalizowanych. Więcej w <a href="/polityka-prywatnosci.html">polityce prywatności</a> i w <a href="https://business.safety.google/intl/pl/privacy/" target="_blank" rel="noopener">zasadach Google dotyczących danych</a>.
       </p>
       <div class="cookie-banner__actions">
         <button type="button" class="btn btn--primary cookie-banner__btn" id="cookieAccept">Akceptuję</button>

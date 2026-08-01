@@ -11,7 +11,7 @@
 window.SITE_CONFIG = {
   // Miasto
   city: "Białystok",
-  cityGenitive: "Białegostoku",   // np. "skup gruntów w Białegostoku"
+  cityGenitive: "Białegostoku",   // np. "skup nieruchomości Białegostoku i okolic"
   cityLocative: "Białymstoku",    // np. "w Białymstoku"
 
   // Kontakt — wyłącznie telefon, bez adresu e-mail.
@@ -28,12 +28,19 @@ window.SITE_CONFIG = {
   // żeby nie tracić kontaktu na błędzie 400. Patrz assets/js/form.js.
   web3formsKey: "7e205f93-6c29-493c-87af-7fb2ec28cd0f",
 
-  // Meta Pixel — JEDYNY przełącznik trybu zgody na całej stronie.
-  // DOPÓKI TO POLE JEST PUSTE: strona nie ładuje niczego z zewnątrz, nie ustawia
-  // żadnych cookies i baner zgody NIE jest pokazywany (nie ma o co pytać).
-  // PO WPISANIU ID: baner włącza się sam, a pixel ładuje się WYŁĄCZNIE z
-  // callbacku akceptacji. Nie wklejaj snippetu Meta do <head> — złamiesz
-  // uprzedniość zgody i baner stanie się dekoracją. Patrz assets/js/ui.js.
+  // Meta Pixel — WYŁĄCZONY. Obsługa została w ui.js, ale pole jest puste, więc
+  // pixel się nie ładuje i nie ustawia żadnych cookies.
+  //
+  // >>> ZANIM TU COKOLWIEK WPISZESZ: polityka prywatności NIE wymienia już Meta
+  // jako odbiorcy danych (usunięte 31.07.2026, bo pixela nie było w kodzie).
+  // Wpisanie ID bez przywrócenia tego zapisu = przetwarzanie danych przez
+  // podmiot nieujawniony w polityce, czyli naruszenie RODO. Kolejność jest
+  // taka: najpierw zapis w polityce (punkt 5 „Komu udostępniamy dane" i punkt
+  // 7 „Pliki cookies"), dopiero potem ID poniżej.
+  //
+  // Po wpisaniu ID pixel ładuje się WYŁĄCZNIE z callbacku akceptacji w banerze.
+  // Nie wklejaj snippetu Meta do <head> — złamiesz uprzedniość zgody i baner
+  // stanie się dekoracją. Patrz assets/js/ui.js.
   fbPixelId: "",
 
   // Marka

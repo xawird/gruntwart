@@ -37,12 +37,16 @@
   const yearEl = document.getElementById("footerYear");
   if (yearEl) yearEl.textContent = String(new Date().getFullYear());
 
-  // ----- Zgoda na cookies + Meta Pixel -----
-  // JEDNO źródło prawdy. Dopóki w config.js nie ma fbPixelId, strona nie ustawia
-  // żadnych cookies i nie ładuje niczego z zewnątrz — zgoda nie jest wymagana
-  // (art. 173 ust. 3 Prawa telekomunikacyjnego / ePrivacy 5(3)), więc baner się
-  // NIE pokazuje. Ten sam warunek bramkuje ładowanie pixela: nie da się mieć
-  // banera bez pixela ani pixela bez zgody.
+  // ----- Zgoda na cookies -----
+  // Baner pokazujemy tylko wtedy, gdy jest co zwalniać: aktywny GA4/Ads
+  // (window.__gaActive) albo ustawiony fbPixelId. Gdy nie działa nic z tych
+  // dwóch, strona nie ustawia żadnych cookies i nie ładuje niczego z zewnątrz,
+  // więc zgoda nie jest wymagana (art. 173 ust. 3 Prawa telekomunikacyjnego /
+  // ePrivacy 5(3)) i baner się NIE pokazuje.
+  //
+  // Obecnie działa GA4 + Google Ads, więc baner jest widoczny. Meta Pixel jest
+  // wyłączony (puste fbPixelId) i USUNIĘTY z polityki prywatności — przed jego
+  // włączeniem przywróć zapis w polityce. Patrz assets/js/config.js.
   const PIXEL_ID = String((window.SITE_CONFIG || {}).fbPixelId || "").trim();
   const CONSENT_KEY = "gruntwart-consent"; // "granted" | "denied"
 
@@ -66,10 +70,9 @@
     window.fbq("track", "PageView");
   }
 
-  // Google (Consent Mode v2, gtag w <head>) i Meta Pixel dzielą JEDEN baner.
-  // "Akceptuję" zwalnia oba; "Odrzucam" zostawia zgodę Google na denied i nie
-  // ładuje pixela. Baner pokazujemy tylko, gdy jest co zwalniać: aktywny GA
-  // (podmieniony placeholder — window.__gaActive) albo ustawiony fbPixelId.
+  // Google (Consent Mode v2, gtag w <head>) i ewentualny Meta Pixel dzielą JEDEN
+  // baner. "Akceptuję" zwalnia oba; "Tylko niezbędne" zostawia zgodę Google na
+  // denied i nie ładuje pixela.
   function grantConsent() {
     if (typeof window.gtag === "function") {
       window.gtag("consent", "update", {
@@ -155,7 +158,7 @@
   // Dodajemy klasę .fade-in do wybranych sekcji/elementów programatycznie,
   // żeby uniknąć zaśmiecania HTML.
   const fadeTargets = document.querySelectorAll(
-    ".buy__card, .steps__item, .why__lead, .why__item, .faq__item, .cta-final__claim, .cta-final__text"
+    ".buy__card, .steps__item, .faq__item, .cta-final__claim, .cta-final__text"
   );
 
   if ("IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
